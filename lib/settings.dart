@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gradproj/report.dart';
+import 'package:gradproj/reports.dart';
 import 'package:gradproj/screens/home.dart';
 
 import 'homepage.dart';
@@ -29,7 +29,7 @@ class _SettingsState extends State<Settings> {
         );
       }  else if(index == 1){
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (v)=> Report())
+            MaterialPageRoute(builder: (v)=> Reports())
         );
       } else if(index == 2){
         Navigator.of(context).push(
@@ -241,7 +241,7 @@ class _SettingsState extends State<Settings> {
                      GestureDetector(
                          onTap: (){
                            Navigator.of(context).push(
-                               MaterialPageRoute(builder: (v)=> Report())
+                               MaterialPageRoute(builder: (v)=> Reports())
                            );
                          },
               child: Padding(

@@ -1,91 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class VideoPlayerWidget extends StatefulWidget {
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
 }
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
-   late VideoPlayerController _controller;
-   late Future<void> _initializeVideoPlayerFuture;
+  YoutubePlayerController? _controller;
+  final String url = 'https://youtu.be/2QKSW30Q9ag?si=sB02EZaCjyFtMO3l';
+  late String id;
   @override
   void initState() {
-
-    // Initialize the video player controller
-    _controller = VideoPlayerController.network('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-        _initializeVideoPlayerFuture = _controller.initialize();
-    _controller.setLooping(true);
-    _controller.setVolume(1.0);
     super.initState();
+    id = YoutubePlayer.convertUrlToId(url)!;
+    _controller = YoutubePlayerController(
+      initialVideoId: id,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+        isLive: false,
+      ),
+    );
   }
 
-  @override
-  void dispose() {
-    // Dispose of the video player controller when the widget is disposed
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      body: FutureBuilder(
-        future: _initializeVideoPlayerFuture,
-        builder: (context,snapshot){
-          if(snapshot.connectionState == ConnectionState.done){
-            return AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(30, 50, 30, 0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-              child: VideoPlayer(
-                _controller,
-              ),
-            )));
-          }else{
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: _controller!,
+        showVideoProgressIndicator: true,
+        progressIndicatorColor: Colors.cyan,
+        progressColors: ProgressBarColors(
+          playedColor: Colors.cyan,
+          handleColor: Colors.cyanAccent,
+        ),
 
       ),
+      builder: (BuildContext , player ) {
+        return Scaffold(
+          body: player,
+        );
+      },);
 
-      floatingActionButton:
-      Padding(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if(_controller.value.isPlaying){
-              _controller.pause();
-            }else{
-              _controller.play();
-            }
-          });
-        },
-        child: Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
-      )),
-    );
-}
-}
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Video Player Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: VideoPlayerWidget(),
-    );
   }
 }

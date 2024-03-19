@@ -1,8 +1,10 @@
+
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:gradproj/counter_trainings.dart';
-import 'package:gradproj/report.dart';
+import 'package:gradproj/reports.dart';
 import 'package:gradproj/rest1.dart';
 import 'package:gradproj/settings.dart';
 import 'package:gradproj/vedio.dart';
@@ -31,7 +33,7 @@ class _TimerTrainingsState extends State<TimerTrainings> {
       );
     }  else if(index == 1){
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (v)=> Report())
+          MaterialPageRoute(builder: (v)=> Reports())
       );
     } else if(index == 2){
       Navigator.of(context).push(
@@ -97,16 +99,16 @@ class _TimerTrainingsState extends State<TimerTrainings> {
 
       home: Scaffold(
         body: Container(
-          
+
           child: _page(),
         ),
       ),
-      
+
     );
-    
-    
-    
-    
+
+
+
+
   }
 
   Widget _timer(){
@@ -147,7 +149,7 @@ class _TimerTrainingsState extends State<TimerTrainings> {
                   child: GestureDetector(
                     onTap: (){
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (v)=> Report())
+                          MaterialPageRoute(builder: (v)=> Reports())
                       );
                     },
                     child: Icon(
@@ -175,137 +177,137 @@ class _TimerTrainingsState extends State<TimerTrainings> {
             ],
           ),
         ),
-       body: Padding(
-       padding: const EdgeInsets.fromLTRB(0,0,0,0),
-       child: Column(
-         children: [
-           Row(
-             children: [
-               GestureDetector(
-                 onTap: () {
-                   Navigator.pop(context);
-                 },
-                 child: Container(
-                   child: Padding(
-                     padding: EdgeInsets.fromLTRB(20, 40, 0, 0),
-                   child: Icon(
-                     Icons.arrow_back_rounded,
-                     //color: const Color.fromARGB(255, 255, 255, 255),
-                     size: 25,
-                   )),
-                 ),
-               ),
-               Padding(
-                   padding: EdgeInsets.fromLTRB(20, 40, 0, 0),
-               child: Text(
-                 'Dynamic Chest',
-                 style: TextStyle(
-                   fontSize: 25,
-                   fontWeight: FontWeight.bold,
-                 ),
-               )),
-             ],
-           ),
-           Row(
-             children: [
-               Container(
-                 padding: EdgeInsets.only(top: 20, left: 30),
-                 child: ClipRRect(
-                   borderRadius: BorderRadius.all(
-                     Radius.circular(30),
-                   ),
-                   child: Image.asset(
-                     'images/dynamic_chest_left.jpg',
-                     alignment: Alignment.topCenter,
-                     fit: BoxFit.cover,
-                     width: 150,
-                     height: 150,
-                   ),
-                 ),
-               ),
-               Container(
-                 padding: EdgeInsets.only(top: 20, left: 30),
-                 child: ClipRRect(
-                   borderRadius: BorderRadius.all(
-                     Radius.circular(30),
-                   ),
-                   child: Image.asset(
-                     'images/dynamic_chest_right.jpg',
-                     alignment: Alignment.topCenter,
-                     fit: BoxFit.cover,
-                     width: 150,
-                     height: 150,
-                   ),
-                 ),
-               ),
-             ],
-           ),
-           Container(
-               padding: EdgeInsets.only(top: 30),
-               height: 320,
-               width: 350,
-               child: VideoPlayerWidget()),
-           Padding(padding: EdgeInsets.fromLTRB(10,0,0,0),
-          child: _timer(),
-    ),
-           Padding(
-             padding: EdgeInsets.fromLTRB(75,0,0,0),
-           child: Row(
-             children: [
-               Padding(padding: EdgeInsets.fromLTRB(0,0,20,0),
-                 child: GestureDetector(
-                   child: Image.asset('images/left_triangle.png'),
-                   onTap:  (){
-                     Navigator.pop(context);
-                   },
-                 ),),
-               ElevatedButton(
-                 style: ElevatedButton.styleFrom(fixedSize: Size.fromWidth(165),
-                     backgroundColor: Color.fromRGBO(8, 97, 231, 1.0),
-                     shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(15),
-                     )),
-
-                   onPressed: (){
-                     if(timer!.isActive){
-                       stopTimer(resets:false);
-                     }else{
-                       startTimer();
-                     }
-                   },
-                    child: Row(
-                        children: [
-                          Icon(
-                            timer!.isActive?   Icons.pause : Icons.play_arrow_rounded ,
-                            color: Colors.white,
-                            size: 30,
+        body: Padding(
+            padding: const EdgeInsets.fromLTRB(0,0,0,0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        child: Padding(
+                            padding: EdgeInsets.fromLTRB(20, 40, 0, 0),
+                            child: Icon(
+                              Icons.arrow_back_rounded,
+                              //color: const Color.fromARGB(255, 255, 255, 255),
+                              size: 25,
+                            )),
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(20, 40, 0, 0),
+                        child: Text(
+                          'Dynamic Chest',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
                           ),
-                           Text(
-                             timer!.isActive? 'Pause' : 'Resume',
-                             style: TextStyle(
-                               fontWeight: FontWeight.bold,
-                               fontSize: 20,
-                               color: Colors.white,
-                             ),
-                           )
-                        ],
-                   ),
-               ),
-               Padding(padding: EdgeInsets.fromLTRB(20,0,0,0)),
-               GestureDetector(
-                 child: Image.asset('images/right_triangle.png'),
-                 onTap:  (){
-                 Navigator.of(context).push(
-                     MaterialPageRoute(builder: (v)=> CounterTrainings())
-                 );
-                 },
-               ),
-             ],
-           ),
-    ),
-         ],
-       )
+                        )),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(top: 20, left: 30),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30),
+                        ),
+                        child: Image.asset(
+                          'images/dynamic_chest_left.jpg',
+                          alignment: Alignment.topCenter,
+                          fit: BoxFit.cover,
+                          width: 150,
+                          height: 150,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 20, left: 30),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30),
+                        ),
+                        child: Image.asset(
+                          'images/dynamic_chest_right.jpg',
+                          alignment: Alignment.topCenter,
+                          fit: BoxFit.cover,
+                          width: 150,
+                          height: 150,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                    padding: EdgeInsets.only(top: 30),
+                    height: 320,
+                    width: 350,
+                    child: VideoPlayerWidget()),
+                Padding(padding: EdgeInsets.fromLTRB(10,0,0,0),
+                  child: _timer(),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(75,0,0,0),
+                  child: Row(
+                    children: [
+                      Padding(padding: EdgeInsets.fromLTRB(0,0,20,0),
+                        child: GestureDetector(
+                          child: Image.asset('images/left_triangle.png'),
+                          onTap:  (){
+                            Navigator.pop(context);
+                          },
+                        ),),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(fixedSize: Size.fromWidth(165),
+                            backgroundColor: Color.fromRGBO(8, 97, 231, 1.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            )),
 
-    ));
+                        onPressed: (){
+                          if(timer!.isActive){
+                            stopTimer(resets:false);
+                          }else{
+                            startTimer();
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              timer!.isActive?   Icons.pause : Icons.play_arrow_rounded ,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                            Text(
+                              timer!.isActive? 'Pause' : 'Resume',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.fromLTRB(20,0,0,0)),
+                      GestureDetector(
+                        child: Image.asset('images/right_triangle.png'),
+                        onTap:  (){
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (v)=> CounterTrainings())
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+
+        ));
   }
 }

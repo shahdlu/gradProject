@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:gradproj/home_next_page.dart';
-import 'package:gradproj/medicine.dart';
-import 'package:gradproj/report.dart';
+import 'package:gradproj/MedicalTests.dart';
+import 'package:gradproj/reports.dart';
 import 'package:gradproj/settings.dart';
+import 'package:gradproj/sports.dart';
 
 import 'food.dart';
+import 'medicine1.dart';
 
 void main() {
   runApp(NavigationBarApp());
@@ -192,7 +193,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
          child: GestureDetector(
            onTap: (){
              Navigator.of(context).push(
-                 MaterialPageRoute(builder: (v)=> Report())
+                 MaterialPageRoute(builder: (v)=> Reports())
              );
            },
          child: Icon(
@@ -231,12 +232,14 @@ class HomeTab extends StatelessWidget {
     'images/mfitness1.jpg',
     'images/food2.jpg',
     'images/medicine.jpg',
+    'images/blood-test.jpg',
   ];
 
   final List<String> photoTexts = [
     'Sport',
     'Food',
     'Medicine',
+    'Medical Tests',
   ];
 
   @override
@@ -263,6 +266,10 @@ class HomeTab extends StatelessWidget {
                   }else if(index == 2){
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (v)=> Medicine())
+                    );
+                  }else if(index == 3){
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (v)=> medicalTests())
                     );
                   }
                 },

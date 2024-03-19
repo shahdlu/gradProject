@@ -150,7 +150,9 @@ class Add_med extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(top: 600, left: 20),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: Text(
                 'Back',
                 style: TextStyle(
@@ -170,7 +172,9 @@ class Add_med extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(top: 600, left: 220),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: Text(
                 'Save',
                 style: TextStyle(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gradproj/LosingWeight.dart';
-import 'package:gradproj/report.dart';
+import 'package:gradproj/Dancing.dart';
+import 'package:gradproj/Walking.dart';
+import 'package:gradproj/reports.dart';
 import 'package:gradproj/settings.dart';
 
-import 'build_body.dart';
 import 'homepage.dart';
 
 void main() {
@@ -19,17 +19,17 @@ class NavigationBarApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SportsScreen(),
+      home: Aerobics(),
     );
   }
 }
 
-class SportsScreen extends StatefulWidget {
+class Aerobics extends StatefulWidget {
   @override
-  _SportsScreenState createState() => _SportsScreenState();
+  _AerobicsScreenState createState() => _AerobicsScreenState();
 }
 
-class _SportsScreenState extends State<SportsScreen> {
+class _AerobicsScreenState extends State<Aerobics> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
@@ -51,7 +51,7 @@ class _SportsScreenState extends State<SportsScreen> {
       );
     }  else if(index == 1){
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (v)=> Report())
+          MaterialPageRoute(builder: (v)=> Reports())
       );
     } else if(index == 2){
       Navigator.of(context).push(
@@ -63,34 +63,34 @@ class _SportsScreenState extends State<SportsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'What is your goal ?',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        appBar: AppBar(
+          title: Text(
+            'Aerobics',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          elevation: 0, // Remove the bar under the title bar
         ),
-        elevation: 0, // Remove the bar under the title bar
-      ),
-      body: Column(
-        children: [
-          Container(
-            height: 10,
-           // color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(width: 8),
-              ],
+        body: Column(
+          children: [
+            Container(
+              height: 10,
+              // color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(width: 8),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: _screens[_currentIndex],
-          ),
-        ],
-      ),
+            Expanded(
+              child: _screens[_currentIndex],
+            ),
+          ],
+        ),
         bottomNavigationBar: Container(
           height: 56,
           padding: EdgeInsets.fromLTRB(30, 10, 30, 0),
@@ -116,7 +116,7 @@ class _SportsScreenState extends State<SportsScreen> {
                   child: GestureDetector(
                     onTap: (){
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (v)=> Report())
+                          MaterialPageRoute(builder: (v)=> Reports())
                       );
                     },
                     child: Icon(
@@ -150,14 +150,14 @@ class _SportsScreenState extends State<SportsScreen> {
 
 class HomeTab extends StatelessWidget {
   final List<String> photoPaths = [
-    'images/man3.jpg',
-    'images/dunble.jpg',
+    'images/walking.jpg',
+    'images/dancing.jpg',
     //'assets/diner.jpg',
   ];
 
   final List<String> photoTexts = [
-    'Build a fit body',
-    'Losing Weight',
+    'Walking',
+    'Dancing',
     //'Diner',
   ];
 
@@ -173,35 +173,35 @@ class HomeTab extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               GestureDetector(
-              onTap: (){
-        if(index == 0){
-        Navigator.of(context).push(
-        MaterialPageRoute(builder: (v)=> Build())
-        );
-        }else if(index == 1){
-        Navigator.of(context).push(
-        MaterialPageRoute(builder: (v)=> LosingWeight1())
-        );
-        }
-        },
-          child: Container(
-                width: MediaQuery.of(context).size.width - 32, // Adjusted width here
-                height: MediaQuery.of(context).size.height / 4.3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    photoPaths[index],
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              )),
+                  onTap: (){
+                    if(index == 0){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (v)=> Walking())
+                      );
+                    }else if(index == 1){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (v)=> Dancing())
+                      );
+                    }
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 32, // Adjusted width here
+                    height: MediaQuery.of(context).size.height / 4.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        photoPaths[index],
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )),
               Positioned(
                 left: 10,
                 top: 10,

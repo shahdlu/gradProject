@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:gradproj/rest2.dart';
 
 const countdownDuration = Duration(seconds: 30);
 Duration duration = Duration();
@@ -16,7 +15,7 @@ class Rest1 extends StatefulWidget{
   State<Rest1> createState() => _Rest1State();
 }
 class _Rest1State extends State<Rest1> {
- /* static const countdownDuration = Duration(seconds: 30);
+  /* static const countdownDuration = Duration(seconds: 30);
   Duration duration = Duration();
   Timer? timer;
   bool isCountdown = true;
@@ -30,9 +29,9 @@ class _Rest1State extends State<Rest1> {
   }
   void reset(){
     if(isCountdown){
-    setState(() {
-      duration = countdownDuration;
-    });}else{
+      setState(() {
+        duration = countdownDuration;
+      });}else{
       setState(() {
         duration = Duration();
       });
@@ -41,13 +40,13 @@ class _Rest1State extends State<Rest1> {
 
   void addTime(){
 
-   // final addSeconds = isCountdown ? -1 :1;
+    // final addSeconds = isCountdown ? -1 :1;
     setState(() {
-       var seconds = duration.inSeconds + addSeconds;
+      var seconds = duration.inSeconds + addSeconds;
       if(seconds < 0){
         timer?.cancel();
-       // isButtonActive = true;
-      /*  Navigator.of(context).push(
+        // isButtonActive = true;
+        /*  Navigator.of(context).push(
             MaterialPageRoute(builder: (v)=> Rest2()));*/
       }else {
         duration = Duration(seconds: seconds);
@@ -137,13 +136,13 @@ class _Rest1State extends State<Rest1> {
             ElevatedButton(
               onPressed: isButtonActive ?
                   (){
-                 setState(() {
-                   isButtonActive = false;
+                setState(() {
+                  isButtonActive = false;
                   /* duration = Duration(seconds: 20);
                    startTimer();*/
                   // seconds += 20;
 
-                 });
+                });
 
               } : null,
               child: const SizedBox(
@@ -160,7 +159,7 @@ class _Rest1State extends State<Rest1> {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                onSurface: Color.fromRGBO(255, 255, 255, 1.0),
+                  onSurface: Color.fromRGBO(255, 255, 255, 1.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),

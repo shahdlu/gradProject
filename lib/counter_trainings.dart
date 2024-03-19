@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:gradproj/report.dart';
+import 'package:gradproj/reports.dart';
 import 'package:gradproj/rest1.dart';
-import 'package:gradproj/rest2.dart';
 import 'package:gradproj/settings.dart';
 import 'package:gradproj/timer_trainings.dart';
 import 'package:gradproj/vedio.dart';
 import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'food.dart';
 import 'homepage.dart';
@@ -20,28 +20,9 @@ class CounterTrainings extends StatefulWidget{
 }
 
 class _CounterTrainingsState extends State<CounterTrainings> {
-  late VideoPlayerController _controller;
+  //late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
   int _currentIndex = 0;
-
-  @override
-  void initState() {
-
-    // Initialize the video player controller
-    _controller = VideoPlayerController.network('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-    _initializeVideoPlayerFuture = _controller.initialize();
-    _controller.setLooping(true);
-    _controller.setVolume(1.0);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // Dispose of the video player controller when the widget is disposed
-    _controller.dispose();
-    super.dispose();
-  }
-
   void _onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -53,7 +34,7 @@ class _CounterTrainingsState extends State<CounterTrainings> {
       );
     }  else if(index == 1){
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (v)=> Report())
+          MaterialPageRoute(builder: (v)=> Reports())
       );
     } else if(index == 2){
       Navigator.of(context).push(
@@ -110,7 +91,7 @@ class _CounterTrainingsState extends State<CounterTrainings> {
                   child: GestureDetector(
                     onTap: (){
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (v)=> Report())
+                          MaterialPageRoute(builder: (v)=> Reports())
                       );
                     },
                     child: Icon(
@@ -169,40 +150,7 @@ class _CounterTrainingsState extends State<CounterTrainings> {
                         )),
                   ],
                 ),
-                Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(top: 20, left: 30),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(30),
-                        ),
-                        child: Image.asset(
-                          'images/Incline Push-Ups_left.jpg',
-                          alignment: Alignment.topCenter,
-                          fit: BoxFit.cover,
-                          width: 150,
-                          height: 150,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 20, left: 30),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(30),
-                        ),
-                        child: Image.asset(
-                          'images/Incline Push-Ups_right.jpg',
-                          alignment: Alignment.topCenter,
-                          fit: BoxFit.cover,
-                          width: 150,
-                          height: 150,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+
                 Container(
                     padding: EdgeInsets.only(top: 30),
                     height: 320,
@@ -237,17 +185,17 @@ class _CounterTrainingsState extends State<CounterTrainings> {
 
                         onPressed: (){
                           Navigator.of(context).push(
-                              MaterialPageRoute(builder: (v)=> Rest2())
+                              MaterialPageRoute(builder: (v)=> Rest1())
                           );
                         },
-                           child: Text(
-                               'Done' ,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
-                            ),
+                        child: Text(
+                          'Done' ,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
 
                       ),
                       Padding(padding: EdgeInsets.fromLTRB(20,0,0,0)),
@@ -268,47 +216,4 @@ class _CounterTrainingsState extends State<CounterTrainings> {
         ));
   }
 
-  Widget _video_player(){
-    return Scaffold(
-      body: FutureBuilder(
-        future: _initializeVideoPlayerFuture,
-        builder: (context,snapshot){
-          if(snapshot.connectionState == ConnectionState.done){
-            return AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: VideoPlayer(
-                        _controller,
-                      ),
-                    )));
-          }else{
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-
-
-      ),
-
-      floatingActionButton:
-      Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child: FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                if(_controller.value.isPlaying){
-                  _controller.pause();
-                }else{
-                  _controller.play();
-                }
-              });
-            },
-            child: Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
-          )),
-    );
-  }
 }

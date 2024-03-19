@@ -4,9 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 const bool MALE = true;
 const bool FEMALE = false;
 const kTitleTextStyle = TextStyle(
-  fontSize: 18,
   fontWeight: FontWeight.w900,
-  letterSpacing: 1,
+  letterSpacing: 2,
 );
 
 const kActiveTitleTextStyle = TextStyle(
@@ -17,18 +16,18 @@ const kActiveTitleTextStyle = TextStyle(
 
 const kLabelTextStyle = TextStyle(
   fontWeight: FontWeight.w900,
-  fontSize: 40,
+  fontSize: 25,
 );
 
 const kResultTextStyle = TextStyle(
   color: kButtonColor,
   fontWeight: FontWeight.w900,
-  fontSize: 40,
+  fontSize: 20,
 );
 
 const kResultLabelTextStyle = TextStyle(
   fontWeight: FontWeight.w900,
-  fontSize: 25 ,
+  fontSize: 30,
 );
 
 const kResultSmallTextStyle = TextStyle(

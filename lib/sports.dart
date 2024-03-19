@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gradproj/homepage.dart';
-import 'package:gradproj/meals.dart';
 import 'package:gradproj/reports.dart';
 import 'package:gradproj/settings.dart';
+import 'package:gradproj/workout.dart';
+
+import 'aerobics.dart';
+import 'homepage.dart';
 
 void main() {
   runApp(NavigationBarApp());
@@ -17,24 +19,24 @@ class NavigationBarApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FoodScreen(),
+      home: SportsScreen(),
     );
   }
 }
 
-class FoodScreen extends StatefulWidget {
+class SportsScreen extends StatefulWidget {
   @override
-  _FoodScreenState createState() => _FoodScreenState();
+  _SportsScreenState createState() => _SportsScreenState();
 }
 
-class _FoodScreenState extends State<FoodScreen> {
+class _SportsScreenState extends State<SportsScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
     HomeTab(),
     HomeTab(),
     HomeTab(),
-    // ProgressTab(),
+    //ProgressTab(),
     //SettingsTab(),
   ];
 
@@ -61,35 +63,34 @@ class _FoodScreenState extends State<FoodScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        //automaticallyImplyLeading: false,
-        title: Text(
-          'Food',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        appBar: AppBar(
+          title: Text(
+            'Sports',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          elevation: 0, // Remove the bar under the title bar
         ),
-        elevation: 0, // Remove the bar under the title bar
-      ),
-      body: Column(
-        children: [
-          Container(
-            height: 10,
-           // color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(width: 8),
-              ],
+        body: Column(
+          children: [
+            Container(
+              height: 10,
+              // color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(width: 8),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: _screens[_currentIndex],
-          ),
-        ],
-      ),
+            Expanded(
+              child: _screens[_currentIndex],
+            ),
+          ],
+        ),
         bottomNavigationBar: Container(
           height: 56,
           padding: EdgeInsets.fromLTRB(30, 10, 30, 0),
@@ -149,24 +150,22 @@ class _FoodScreenState extends State<FoodScreen> {
 
 class HomeTab extends StatelessWidget {
   final List<String> photoPaths = [
-    'images/breakfast.jpg',
-    'images/lunch.jpg',
-    'images/diner.jpg',
-    'images/snacks.jpg',
+    'images/workout.jpg',
+    'images/aerobics.jpg',
+    //'assets/diner.jpg',
   ];
 
   final List<String> photoTexts = [
-    'Breakfast',
-    'Lunch',
-    'Diner',
-    'Snacks'
+    'Workouts',
+    'Aerobics',
+    //'Diner',
   ];
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 16.0), // Adjusted padding here
-      itemCount: photoPaths.length,
+      itemCount: 2, // Display only two photos
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -175,30 +174,34 @@ class HomeTab extends StatelessWidget {
             children: [
               GestureDetector(
                   onTap: (){
+                    if(index == 0){
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (v)=> Meals(pageIndex: index))
+                          MaterialPageRoute(builder: (v)=> Workout())
                       );
-
+                    }else if(index == 1){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (v)=> Aerobics())
+                      );
+                    }
                   },
-
-              child: Container(
-                width: MediaQuery.of(context).size.width - 32, // Adjusted width here
-                height: MediaQuery.of(context).size.height / 4.3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    photoPaths[index],
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              )),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 32, // Adjusted width here
+                    height: MediaQuery.of(context).size.height / 4.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        photoPaths[index],
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )),
               Positioned(
                 left: 10,
                 top: 10,

@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:gradproj/List_View1.dart';
-import 'package:gradproj/list_view.dart';
-import 'package:gradproj/report.dart';
+import 'package:gradproj/reports.dart';
 import 'package:gradproj/rest1.dart';
 import 'package:gradproj/settings.dart';
 import 'package:gradproj/timer_trainings.dart';
 
 import 'Container.dart';
-import 'build_body.dart';
+
 import 'homepage.dart';
 
-class LosingWeight1 extends StatefulWidget {
-  const LosingWeight1({super.key});
+class Workout extends StatefulWidget {
+  const Workout({super.key});
   @override
-  _LosingScreenState createState() => _LosingScreenState();
+  _WorkoutScreenState createState() => _WorkoutScreenState();
 }
 
-class _LosingScreenState extends State<LosingWeight1> {
+class _WorkoutScreenState extends State<Workout> {
   int _currentIndex = 0;
 
   void _onTabTapped(int index) {
@@ -30,7 +29,7 @@ class _LosingScreenState extends State<LosingWeight1> {
       );
     }  else if(index == 1){
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (v)=> Report())
+          MaterialPageRoute(builder: (v)=> Reports())
       );
     } else if(index == 2){
       Navigator.of(context).push(
@@ -63,7 +62,7 @@ class _LosingScreenState extends State<LosingWeight1> {
                           bottomRight: Radius.circular(30),
                         ),
                         child: Image.asset(
-                          'images/losing_weightimg.jpg',
+                          'images/workout.jpg',
                           alignment: Alignment.topCenter,
                           fit: BoxFit.cover,
                           width: 400,
@@ -76,27 +75,11 @@ class _LosingScreenState extends State<LosingWeight1> {
                       //alignment: Alignment.centerLeft,
                       padding: EdgeInsets.only(left: 20, top: 60),
                       child: Text(
-                        'Losing weight',
+                        'Workouts',
                         style: TextStyle(
-                          /*  shadows: <Shadow>[
-                              Shadow(
-                                offset: Offset(3.0, 4.0),
-                                blurRadius: 4.0,
-                                color: Color.fromARGB(255, 77, 75, 75),
-                              ),
-                            ],*/
                             color: const Color.fromARGB(255, 255, 255, 255),
                             fontWeight: FontWeight.bold,
                             fontSize: 28.0),
-                      )),
-                  Container(
-                      padding: EdgeInsets.only(left: 20, top: 180),
-                      child: Text(
-                        'Let`s start and \nfight the fat',
-                        style: TextStyle(
-                            color: const Color.fromARGB(255, 255, 255, 255),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17.0),
                       )),
                   GestureDetector(
                     onTap: () {
@@ -189,7 +172,7 @@ class _LosingScreenState extends State<LosingWeight1> {
                     child: GestureDetector(
                       onTap: (){
                         Navigator.of(context).push(
-                            MaterialPageRoute(builder: (v)=> Report())
+                            MaterialPageRoute(builder: (v)=> Reports())
                         );
                       },
                       child: Icon(
