@@ -1,6 +1,11 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:gradproj/sports_report.dart';
+
+import 'food_report.dart';
+import 'medicaltest_report.dart';
+import 'medicine_report.dart';
 
 class Reports extends StatefulWidget {
   @override
@@ -30,19 +35,19 @@ class _ReportsState extends State<Reports> {
                 padding: EdgeInsets.fromLTRB(20, 20, 30, 0),
               child: GestureDetector(
               onTap: (){
-                // if(index == 0 ){
-                //   Navigator.of(context).push(
-                //       MaterialPageRoute(builder: (v)=> SportsReport()))
-                // }else if(index == 1 ){
-                //   Navigator.of(context).push(
-                //       MaterialPageRoute(builder: (v)=> FoodReport()))
-                // }else if(index == 2 ){
-                //   Navigator.of(context).push(
-                //       MaterialPageRoute(builder: (v)=> MedicineReport()))
-                // }else if(index == 3 ){
-                //   Navigator.of(context).push(
-                //       MaterialPageRoute(builder: (v)=> MedicalTestsReport()))
-                // }
+                if(index == 0 ){
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (v)=> SportsReport()));
+                }else if(index == 1 ){
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (v)=> FoodReport()));
+                }else if(index == 2 ){
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (v)=> MedicineReport()));
+                }else if(index == 3 ){
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (v)=> MedicalTestsReport()));
+                }
               },
             child: Container(
             height: 80,
