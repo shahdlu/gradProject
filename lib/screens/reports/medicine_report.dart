@@ -21,7 +21,7 @@ class _MedicineReportState extends State<MedicineReport> {
     return Scaffold(
       appBar: AppBar(
         title: TextTitle(
-            text: 'Food',
+            text: 'Medicine',
             textcolor: Colors.black
         ),
       ),
