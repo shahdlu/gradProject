@@ -48,6 +48,9 @@ class _TimerTrainingsState extends State<TimerTrainings> {
       final seconds = duration.inSeconds + addSeconds;
       if (seconds < 0) {
         timer?.cancel();
+        Navigator.of(context).push(
+              MaterialPageRoute(builder: (v) => Rest()
+          );
         // change page content to the next training
       } else {
         duration = Duration(seconds: seconds);
