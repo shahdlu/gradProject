@@ -12,7 +12,7 @@ class List1 extends StatelessWidget {
       body: ListView.builder(
           itemCount: 8,
           itemBuilder: (context, index) {
-            return  Container1(name: 'bassant', time: '', kcal: '', image1Url: '',);
+            return  Container1( ,);
           }),
     );
   }
