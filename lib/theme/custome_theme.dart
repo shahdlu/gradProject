@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import 'constants.dart';
+
 
 // ignore: non_constant_identifier_names
 ThemeData CustomTheme() => ThemeData.light(useMaterial3: true).copyWith(
