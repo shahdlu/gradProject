@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradproj/screens/main_screens/homepage.dart';
+import 'package:gradproj/screens/main_screens/mainscreen.dart';
 import 'package:gradproj/screens/welcome&login/signup.dart';
 import 'package:gradproj/theme/constants.dart';
 import 'package:gradproj/widgets/button.dart';
@@ -34,16 +35,16 @@ class _LoginState extends State<Login> {
       bool type = false;
       await Future.delayed(
         Duration.zero,
-        () {
+            () {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
                 backgroundColor: Colors.white,
                 title: Text(
-                  'هل تريد الخروج من البرنامج؟',
+                  'Are you sure to close the app?',
                   style:
-                      Styles.textStyle22.copyWith(fontWeight: FontWeight.w500),
+                  Styles.textStyle22.copyWith(fontWeight: FontWeight.w500),
                   textAlign: TextAlign.end,
                 ),
                 actions: [
@@ -52,14 +53,14 @@ class _LoginState extends State<Login> {
                         type = false;
                         Navigator.pop(context);
                       },
-                      child: const Text('لا', style: Styles.textStyle16)),
+                      child: const Text('No', style: Styles.textStyle16)),
                   TextButton(
                       onPressed: () {
                         type = true;
                         SystemNavigator.pop();
                       },
                       child: const Text(
-                        'نعم',
+                        'Yes',
                         style: Styles.textStyle16,
                       )),
                 ],
@@ -78,7 +79,7 @@ class _LoginState extends State<Login> {
           isLoaded = true;
         } else if (state is LoginSuccess) {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (v) =>  HomePageScreen()));
+              .push(MaterialPageRoute(builder: (v) =>  MainPage()));
 
           isLoaded = false;
         } else if (state is LoginFailure) {

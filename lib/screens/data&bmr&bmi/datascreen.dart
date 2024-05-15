@@ -31,26 +31,22 @@ class _DataHomeScreenState extends State<DataHomeScreen> {
     final CollectionReference users = FirebaseFirestore.instance.collection('users');
     final String userId = FirebaseAuth.instance.currentUser!.uid; // Implement this function to get the user's ID
 
-    if (userId != null) {
-      String genderString = '';
-      if (selectedGender == Gender.male) {
-        genderString = 'male';
-      } else if (selectedGender == Gender.female) {
-        genderString = 'female';
-      }
-      final userData = {
-        'gender': genderString,
-        'age': age,
-        'height': height,
-        'weight': weight,
-      };
-      users.doc(userId).update(userData)
-          .then((value) => print("User data updated successfully"))
-          .catchError((error) => print("Failed to update user data: $error"));
-    } else {
-      print("Error: User ID is null");
+    String genderString = '';
+    if (selectedGender == Gender.male) {
+      genderString = 'male';
+    } else if (selectedGender == Gender.female) {
+      genderString = 'female';
     }
-  }
+    final userData = {
+      'gender': genderString,
+      'age': age,
+      'height': height,
+      'weight': weight,
+    };
+    users.doc(userId).update(userData)
+        .then((value) => print("User data updated successfully"))
+        .catchError((error) => print("Failed to update user data: $error"));
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +259,7 @@ class _DataHomeScreenState extends State<DataHomeScreen> {
                     builder: (context) => UserActivityData(
                       height: height,
                       weight: weight,
-                      gender: selectedGender.toString(),
+                      gender: selectedGender,
                       age: age,
                     ),
                   ),

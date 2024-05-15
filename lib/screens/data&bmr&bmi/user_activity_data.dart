@@ -18,10 +18,10 @@ var exerciseList = [
 ];
 
 class UserActivityData extends StatefulWidget {
-  const UserActivityData({super.key, this.age, this.weight, this.height, this.gender});
+  const UserActivityData({super.key, this.age, this.weight, this.height, required this.gender});
 
   final age, weight, height;
-  final gender;
+  final Gender gender;
 
   @override
   _UserActivityDataState createState() => _UserActivityDataState();
@@ -31,7 +31,7 @@ class _UserActivityDataState extends State<UserActivityData> {
   String _activity = exerciseList[0];
 
   late int age, weight, height;
-  late Gender gender;
+   Gender? gender;
   int _current_index = 0;
   @override
   void initState() {
@@ -93,7 +93,7 @@ class _UserActivityDataState extends State<UserActivityData> {
                                 age: age,
                                 weight: weight,
                                 height: height,
-                                gender: gender,
+                                gender: gender ?? Gender.female,
                                 activity: _activity,
                               );
 
