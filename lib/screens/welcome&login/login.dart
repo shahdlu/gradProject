@@ -3,7 +3,6 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gradproj/screens/main_screens/homepage.dart';
 import 'package:gradproj/screens/main_screens/mainscreen.dart';
 import 'package:gradproj/screens/welcome&login/signup.dart';
 import 'package:gradproj/theme/constants.dart';
@@ -15,7 +14,6 @@ import '../../core/widgets/style.dart';
 import '../../cubit/auth_cubit/login_cubit/login_cubit.dart';
 import '../../cubit/auth_cubit/login_cubit/login_state.dart';
 import '../../widgets/text.dart';
-import '../data&bmr&bmi/datascreen.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
