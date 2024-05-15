@@ -26,114 +26,116 @@ import '../../widgets/text.dart';
           textcolor: Colors.white,
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 150,
-            color: Color(0xff0861E7),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 60, top: 30),
-                        child: Row(
-                          children: [
-                            SubTitle(
-                              text: "Eaten",
-                              textcolor: Colors.white,
-                              weight: FontWeight.bold,
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 100),
-                            child: SubTitle(
-                              text: "Remining",
-                              textcolor: Colors.white,
-                              weight: FontWeight.bold,
-                            )),
-                          ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 150,
+              color: Color(0xff0861E7),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 60, top: 30),
+                          child: Row(
+                            children: [
+                              SubTitle(
+                                text: "Eaten",
+                                textcolor: Colors.white,
+                                weight: FontWeight.bold,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 100),
+                              child: SubTitle(
+                                text: "Remining",
+                                textcolor: Colors.white,
+                                weight: FontWeight.bold,
+                              )),
+                            ],
+                          ),
                         ),
-                      ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Row(
-                                children: [
-                                  CustomCard(
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Row(
+                                  children: [
+                                    CustomCard(
+                                        card_action: (){},
+                                        card_height: 50,
+                                        card_content: Padding(
+                                          padding: EdgeInsets.fromLTRB(25, 8, 25, 0),
+                                        child: SmallText(
+                                          textcolor: Colors.black,
+                                          text: '420'+' kcal',
+                                          weight: FontWeight.bold,
+                                        )),
+                                      ),
+                                    CustomCard(
                                       card_action: (){},
                                       card_height: 50,
                                       card_content: Padding(
-                                        padding: EdgeInsets.fromLTRB(25, 8, 25, 0),
-                                      child: SmallText(
-                                        textcolor: Colors.black,
-                                        text: '420'+' kcal',
-                                        weight: FontWeight.bold,
-                                      )),
+                                          padding: EdgeInsets.fromLTRB(25, 8, 25, 0),
+                                          child: SmallText(
+                                            textcolor: Colors.black,
+                                            text: '1020'+' kcal',
+                                            weight: FontWeight.bold,
+                                          )),
                                     ),
-                                  CustomCard(
-                                    card_action: (){},
-                                    card_height: 50,
-                                    card_content: Padding(
-                                        padding: EdgeInsets.fromLTRB(25, 8, 25, 0),
-                                        child: SmallText(
-                                          textcolor: Colors.black,
-                                          text: '1020'+' kcal',
-                                          weight: FontWeight.bold,
-                                        )),
-                                  ),
-
-
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-            ),
-          ),
-          CustomCard(
-              card_height: 550,
-              card_action: (){},
-              card_content: SizedBox(
-               height: 300,
-                child: ListView.builder(
-                  itemCount: selected_items.length,
-                    itemBuilder: (context , index){
-                    _current_index = index;
-                    return Padding(
-                      padding: EdgeInsets.only(left: 20,top: 15,right: 20),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              SubTitle(
-                                  text: selected_items[_current_index],
-                                  textcolor: Colors.black,
-                                  weight: FontWeight.normal
-                              ),
-                              Spacer(flex: 1,),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.remove_circle_outlined,
+        
+        
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              SmallText(
-                                  text: selected_items_grams[_current_index],
-                                  textcolor: Colors.black,
-                                  weight: FontWeight.normal
-                              )
-                            ],
-                          )
-                        ],)
-                    );
-                    }
-                )
-          )
-    )
-        ],
+              ),
+            ),
+            CustomCard(
+                card_height: 550,
+                card_action: (){},
+                card_content: SizedBox(
+                 height: 300,
+                  child: ListView.builder(
+                    itemCount: selected_items.length,
+                      itemBuilder: (context , index){
+                      _current_index = index;
+                      return Padding(
+                        padding: EdgeInsets.only(left: 20,top: 15,right: 20),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                SubTitle(
+                                    text: selected_items[_current_index],
+                                    textcolor: Colors.black,
+                                    weight: FontWeight.normal
+                                ),
+                                Spacer(flex: 1,),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.remove_circle_outlined,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SmallText(
+                                    text: selected_items_grams[_current_index],
+                                    textcolor: Colors.black,
+                                    weight: FontWeight.normal
+                                )
+                              ],
+                            )
+                          ],)
+                      );
+                      }
+                  )
+            )
+            )
+          ],
+        ),
       ),
     );
   }

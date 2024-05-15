@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/screens/foodpart/search_field.dart';
 
 import '../../theme/constants.dart';
 import '../../widgets/button.dart';
-
-
-
 
 class DinnerScreen extends StatefulWidget {
   const DinnerScreen({super.key});
@@ -16,6 +14,28 @@ class DinnerScreen extends StatefulWidget {
 }
 
 class _DinnerScreenState extends State<DinnerScreen> {
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
+  final List<Map<String, dynamic>> selectedItems = [];
+
+  void _addSelectedItems() async {
+    if (selectedItems.isNotEmpty) {
+      DocumentReference userSelectedItemsDoc = FirebaseFirestore.instance
+          .collection('selected_items')
+          .doc(userId);
+
+      await userSelectedItemsDoc.set({
+        'items': FieldValue.arrayUnion(selectedItems)
+      }, SetOptions(merge: true));
+
+      setState(() {
+        selectedItems.clear();
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Selected items added successfully')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +53,12 @@ class _DinnerScreenState extends State<DinnerScreen> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         elevation: 0, // Remove the bar under the title bar
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.check),
+            onPressed: _addSelectedItems,
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -61,52 +87,85 @@ class _DinnerScreenState extends State<DinnerScreen> {
                     var dinner = snapshot.data?.docs[index];
                     var name = dinner?['name'];
                     var kcal = dinner?['kcal'];
-                    var image =dinner?['image'];
+                    var image = dinner?['image'];
                     var desc = dinner?['desc'];
+                    var id = dinner!.id;
 
-                    return DinnerListViewItem(name: name , kcal: kcal, image: image,desc: desc,)
-
-
-
-
-                    ;
+                    return DinnerListViewItem(
+                      id: id,
+                      name: name,
+                      kcal: kcal,
+                      image: image,
+                      desc: desc,
+                      onChecked: (isChecked) {
+                        if (isChecked) {
+                          selectedItems.add({
+                            'id': id,
+                            'name': name,
+                            'desc': desc,
+                            'image': image,
+                            'kcal': kcal,
+                          });
+                        } else {
+                          selectedItems.removeWhere((item) => item['id'] == id);
+                        }
+                      },
+                    );
                   },
                 ),
               );
             },
-
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             child: CalculateButton(
-                title: 'Add another food',
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (v) => const SearchField()));
-                },
-                buttonbackcolor: kButtonColor,
-                buttontextcolor: Colors.white),
+              title: 'Add another food',
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (v) => const SearchField()));
+              },
+              buttonbackcolor: kButtonColor,
+              buttontextcolor: Colors.white,
+            ),
           ),
         ],
       ),
-
-
     );
   }
 }
 
-
-
-
-class DinnerListViewItem extends StatelessWidget {
+class DinnerListViewItem extends StatefulWidget {
   const DinnerListViewItem({
-    super.key, required this.name, required this.desc, required this.image, required this.kcal,
-  });
-  final String name , desc , image , kcal;
+    Key? key,
+    required this.id,
+    required this.name,
+    required this.desc,
+    required this.image,
+    required this.kcal,
+    required this.onChecked,
+  }) : super(key: key);
+
+  final String id, name, desc, image;
+  final num kcal;
+  final Function(bool) onChecked;
+
+  @override
+  _DinnerListViewItemState createState() => _DinnerListViewItemState();
+}
+
+class _DinnerListViewItemState extends State<DinnerListViewItem> {
+  bool isChecked = false;
+
+  void _onCheckboxChanged(bool? value) {
+    setState(() {
+      isChecked = value!;
+    });
+    widget.onChecked(isChecked);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15.0 , horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
       child: Container(
         padding: const EdgeInsets.all(15.0),
         decoration: BoxDecoration(
@@ -119,7 +178,7 @@ class DinnerListViewItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  name,
+                  widget.name,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -127,10 +186,8 @@ class DinnerListViewItem extends StatelessWidget {
                   ),
                 ),
                 Checkbox(
-                  value: false,
-                  onChanged: (newValue) {
-                    // Handle checkbox state changes
-                  },
+                  value: isChecked,
+                  onChanged: _onCheckboxChanged,
                 ),
               ],
             ),
@@ -139,7 +196,7 @@ class DinnerListViewItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    desc,
+                    widget.desc,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -148,7 +205,7 @@ class DinnerListViewItem extends StatelessWidget {
                   ),
                 ),
                 Image.network(
-                  image,
+                  widget.image,
                   height: 90,
                   width: 90,
                 ),
@@ -169,7 +226,7 @@ class DinnerListViewItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '$kcal cal',
+                  '${widget.kcal} cal',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,

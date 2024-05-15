@@ -53,7 +53,7 @@ class _SearchFieldState extends State<SearchField> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextTitle(
+        title: const TextTitle(
           text: 'Another choices',
           textcolor: Colors.black
         )
@@ -64,7 +64,7 @@ class _SearchFieldState extends State<SearchField> {
           child: Column(
             children: [
               Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 20),
+                  padding: const EdgeInsets.only(top: 20, bottom: 20),
               child: TextField(
                 onChanged: (value) => _runFilter(value),
                 decoration: const InputDecoration(
@@ -111,7 +111,7 @@ class _SearchFieldState extends State<SearchField> {
                                        weight: FontWeight.normal,
                                    )],)
                                   ])),
-                                Spacer(
+                                const Spacer(
                                   flex: 1,
                                 ),
                                 NormalText(
@@ -140,12 +140,12 @@ class _SearchFieldState extends State<SearchField> {
                       ),
               ),
              Padding(
-                 padding: EdgeInsets.only(top: 20,bottom: 20),
+                 padding: const EdgeInsets.only(top: 20,bottom: 20),
                child: CalculateButton(
                  title: 'Selected items',
                  onTap: (){
                    Navigator.of(context).push(
-                     MaterialPageRoute(builder: (v) => SelectedItems())
+                     MaterialPageRoute(builder: (v) => const SelectedItems())
                    );
                  },
                  buttonbackcolor: kButtonColor,

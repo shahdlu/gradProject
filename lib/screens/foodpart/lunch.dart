@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/screens/foodpart/search_field.dart';
 
@@ -13,93 +14,158 @@ class LunchScreen extends StatefulWidget {
 }
 
 class _LunchScreenState extends State<LunchScreen> {
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
+  final List<Map<String, dynamic>> selectedItems = [];
+
+  void _addSelectedItems() async {
+    if (selectedItems.isNotEmpty) {
+      DocumentReference userSelectedItemsDoc = FirebaseFirestore.instance
+          .collection('selected_items')
+          .doc(userId);
+
+      await userSelectedItemsDoc.set({
+        'items': FieldValue.arrayUnion(selectedItems)
+      }, SetOptions(merge: true));
+
+      setState(() {
+        selectedItems.clear();
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Selected items added successfully')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              // Navigate back to the previous screen
-              Navigator.of(context).pop();
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigate back to the previous screen
+            Navigator.of(context).pop();
+          },
+        ),
+        title: const Text(
+          'Lunch',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        elevation: 0, // Remove the bar under the title bar
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.check),
+            onPressed: _addSelectedItems,
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('lunch').snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              }
+              if (snapshot.data!.docs.isEmpty) {
+                return const Center(
+                  child: Text('No data available'),
+                );
+              }
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: (context, index) {
+                    var lunch = snapshot.data?.docs[index];
+                    var name = lunch?['name'];
+                    var kcal = lunch?['kcal'];
+                    var image = lunch?['image'];
+                    var desc = lunch?['desc'];
+                    var id = lunch!.id;
+
+                    return LunchListViewItem(
+                      id: id,
+                      name: name,
+                      kcal: kcal,
+                      image: image,
+                      desc: desc,
+                      onChecked: (isChecked) {
+                        if (isChecked) {
+                          selectedItems.add({
+                            'id': id,
+                            'name': name,
+                            'desc': desc,
+                            'image': image,
+                            'kcal': kcal,
+                          });
+                        } else {
+                          selectedItems.removeWhere((item) => item['id'] == id);
+                        }
+                      },
+                    );
+                  },
+                ),
+              );
             },
           ),
-          title: const Text(
-            'Lunch',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          elevation: 0, // Remove the bar under the title bar
-        ),
-        body: Column(
-          children: [
-            StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('lunch').snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  );
-                }
-                if (snapshot.data!.docs.isEmpty) {
-                  return const Center(
-                    child: Text('No data available'),
-                  );
-                }
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data?.docs.length,
-                    itemBuilder: (context, index) {
-                      var lunch = snapshot.data?.docs[index];
-                      var name = lunch?['name'];
-                      var kcal = lunch?['kcal'];
-                      var image =lunch?['image'];
-                      var desc = lunch?['desc'];
-
-                      return LunchListViewItem(name: name , kcal: kcal, image: image,desc: desc,)
-
-
-
-
-                      ;
-                    },
-                  ),
-                );
+          Padding(
+            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            child: CalculateButton(
+              title: 'Add another food',
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (v) => const SearchField()));
               },
-
+              buttonbackcolor: kButtonColor,
+              buttontextcolor: Colors.white,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
-              child: CalculateButton(
-                  title: 'Add another food',
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (v) => const SearchField()));
-                  },
-                  buttonbackcolor: kButtonColor,
-                  buttontextcolor: Colors.white),
-            ),
-          ],
-        )
-
+          ),
+        ],
+      ),
     );
   }
 }
 
-class LunchListViewItem extends StatelessWidget {
+class LunchListViewItem extends StatefulWidget {
   const LunchListViewItem({
-    super.key, required this.name, required this.desc, required this.image, required this.kcal,
-  });
-  final String name , desc , image , kcal;
+    Key? key,
+    required this.id,
+    required this.name,
+    required this.desc,
+    required this.image,
+    required this.kcal,
+    required this.onChecked,
+  }) : super(key: key);
+
+  final String id, name, desc, image;
+  final num kcal;
+  final Function(bool) onChecked;
+
+  @override
+  _LunchListViewItemState createState() => _LunchListViewItemState();
+}
+
+class _LunchListViewItemState extends State<LunchListViewItem> {
+  bool isChecked = false;
+
+  void _onCheckboxChanged(bool? value) {
+    setState(() {
+      isChecked = value!;
+    });
+    widget.onChecked(isChecked);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15.0 , horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
       child: Container(
         padding: const EdgeInsets.all(15.0),
         decoration: BoxDecoration(
@@ -112,7 +178,7 @@ class LunchListViewItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  name,
+                  widget.name,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -120,10 +186,8 @@ class LunchListViewItem extends StatelessWidget {
                   ),
                 ),
                 Checkbox(
-                  value: false,
-                  onChanged: (newValue) {
-                    // Handle checkbox state changes
-                  },
+                  value: isChecked,
+                  onChanged: _onCheckboxChanged,
                 ),
               ],
             ),
@@ -132,7 +196,7 @@ class LunchListViewItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    desc,
+                    widget.desc,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -141,7 +205,7 @@ class LunchListViewItem extends StatelessWidget {
                   ),
                 ),
                 Image.network(
-                  image,
+                  widget.image,
                   height: 90,
                   width: 90,
                 ),
@@ -162,7 +226,7 @@ class LunchListViewItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '$kcal cal',
+                  '${widget.kcal} cal',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
