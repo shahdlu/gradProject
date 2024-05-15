@@ -1,54 +1,42 @@
-//import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:gradproj/screens/data&bmr&bmi/datascreen.dart';
-import 'package:gradproj/screens/diabetes_info/some_information.dart';
-import 'package:gradproj/screens/foodpart/food.dart';
-import 'package:gradproj/screens/foodpart/meals.dart';
-import 'package:gradproj/screens/foodpart/search_field.dart';
-import 'package:gradproj/screens/foodpart/selectedItems.dart';
-import 'package:gradproj/screens/main_screens/homepage.dart';
-import 'package:gradproj/screens/main_screens/mainscreen.dart';
-import 'package:gradproj/screens/main_screens/settings.dart';
-import 'package:gradproj/screens/medicaltests/MedicalTests.dart';
-import 'package:gradproj/screens/medicine/add_medicine.dart';
-import 'package:gradproj/screens/medicine/medicine1.dart';
-import 'package:gradproj/screens/reports/reports.dart';
-import 'package:gradproj/screens/sports/counter_trainings.dart';
-import 'package:gradproj/screens/sports/rest.dart';
-import 'package:gradproj/screens/sports/sports.dart';
-import 'package:gradproj/screens/sports/timer_trainings.dart';
-import 'package:gradproj/screens/welcome&login/login.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gradproj/cubit/auth_cubit/login_cubit/login_cubit.dart';
+import 'package:gradproj/cubit/auth_cubit/register_cubit/register_cubit.dart';
 import 'package:gradproj/screens/welcome&login/welcome.dart';
-//import 'firebase_options.dart';
-//import 'login.dart';
+import 'firebase_options.dart';
+import 'injection_container.dart' as di;
 
-
-/*Future */main() /*async*/async {
- /* WidgetsFlutterBinding.ensureInitialized();
-  await Future.delayed(const Duration(seconds: 3));
-  FlutterNativeSplash.remove();*/
+/*Future */
+void main()async {
   WidgetsFlutterBinding.ensureInitialized();
- /* await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,);*/
-  runApp(MyApp());
-  
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await di.init();
+  runApp(const MyApp());
 }
-class MyApp extends StatelessWidget{
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Health Pulse',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di.sl<RegisterCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<LoginCubit>(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Health Pulse',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Welcome(),
       ),
-      home: Welcome(),
-
-
-
     );
-    
   }
 }
