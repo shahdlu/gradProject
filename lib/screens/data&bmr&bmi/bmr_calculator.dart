@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gradproj/screens/data&bmr&bmi/datascreen.dart';
 
 import '../../theme/constants.dart';
 
 class CalculatorBrain {
   final int age, weight, height;
-  final bool gender;
+  final Gender gender;
   final String activity;
 
   late double _bmr;
@@ -50,11 +51,11 @@ class CalculatorBrain {
   }
 
   bool _isMale() {
-    return gender == MALE;
+    return gender == Gender.male;
   }
 
   bool _isFemale() {
-    return gender == FEMALE;
+    return gender == Gender.female;
   }
 
   void _checkGenderToCalculate() {

@@ -9,7 +9,7 @@ import '../../widgets/vedio.dart';
 
 
 const countdownDuration = Duration(seconds: 30);
-Duration duration = Duration();
+Duration duration = const Duration();
 Timer? timer;
 bool isCountdown = true;
 bool isButtonActive = true;
@@ -37,7 +37,7 @@ class _TimerTrainingsState extends State<TimerTrainings> {
       });
     } else {
       setState(() {
-        duration = Duration();
+        duration = const Duration();
       });
     }
   }
@@ -50,7 +50,7 @@ class _TimerTrainingsState extends State<TimerTrainings> {
         timer?.cancel();
         Navigator.of(context).push(
               MaterialPageRoute(builder: (v) => Rest()
-          );
+          ));
         // change page content to the next training
       } else {
         duration = Duration(seconds: seconds);
@@ -59,7 +59,7 @@ class _TimerTrainingsState extends State<TimerTrainings> {
   }
 
   void startTimer() {
-    timer = Timer.periodic(Duration(seconds: 1), (_) => addTime());
+    timer = Timer.periodic(const Duration(seconds: 1), (_) => addTime());
   }
 
   void stopTimer({bool resets = true}) {
@@ -75,7 +75,7 @@ class _TimerTrainingsState extends State<TimerTrainings> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        title: TextTitle(
+        title: const TextTitle(
           text: 'Dynamic chest',
           textcolor:Colors.black
         ),
@@ -95,30 +95,30 @@ class _TimerTrainingsState extends State<TimerTrainings> {
                 Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(top: 20, left: 30),
-                      child: CustomSmallRoundedImage(imagesrc: 'images/dynamic_chest_left.jpg',)
+                      padding: const EdgeInsets.only(top: 20, left: 30),
+                      child: const CustomSmallRoundedImage(imagesrc: 'images/dynamic_chest_left.jpg',)
                     ),
                     Container(
-                        padding: EdgeInsets.only(top: 20, left: 30),
-                        child: CustomSmallRoundedImage(imagesrc: 'images/dynamic_chest_right.jpg',)
+                        padding: const EdgeInsets.only(top: 20, left: 30),
+                        child: const CustomSmallRoundedImage(imagesrc: 'images/dynamic_chest_right.jpg',)
                     ),
 
                   ],
                 ),
                 Container(
-                    padding: EdgeInsets.fromLTRB( 20, 30, 20,0 ),
+                    padding: const EdgeInsets.fromLTRB( 20, 30, 20,0 ),
                     height: 300,
                     width: 700,
                     child: VideoPlayerWidget(link: widget.link,)),
                 Padding(
-                  padding: EdgeInsets.only(top: 50),
+                  padding: const EdgeInsets.only(top: 50),
                   child: _timer(),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 70 , top: 30),
+                  padding: const EdgeInsets.only(left: 70 , top: 30),
                   child: Row(
                     children: [
-                      Padding(padding: EdgeInsets.only(right: 20),
+                      Padding(padding: const EdgeInsets.only(right: 20),
                         child: GestureDetector(
                           child: Image.asset('images/left_triangle.png'),
                           onTap:  (){
@@ -126,7 +126,7 @@ class _TimerTrainingsState extends State<TimerTrainings> {
                           },
                         ),),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(fixedSize: Size.fromWidth(165),
+                        style: ElevatedButton.styleFrom(fixedSize: const Size.fromWidth(165),
                             backgroundColor: kButtonColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -154,7 +154,7 @@ class _TimerTrainingsState extends State<TimerTrainings> {
                           ],
                         ),
                       ),
-                      Padding(padding: EdgeInsets.only(left: 20)),
+                      const Padding(padding: EdgeInsets.only(left: 20)),
                       GestureDetector(
                         child: Image.asset('images/right_triangle.png'),
                         onTap:  (){
@@ -190,7 +190,7 @@ class _TimerTrainingsState extends State<TimerTrainings> {
     @override
     Widget build(BuildContext context) {
       return ClipRRect(
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(30),
         ),
         child: Image.asset(

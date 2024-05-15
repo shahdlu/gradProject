@@ -7,7 +7,7 @@ import 'package:gradproj/widgets/button.dart';
 import '../../widgets/text.dart';
 
 const countdownDuration = Duration(seconds: 30);
-Duration duration = Duration();
+Duration duration = const Duration();
 Timer? timer;
 bool isCountdown = true;
 bool isButtonActive = true;
@@ -37,7 +37,7 @@ class _RestState extends State<Rest> {
         duration = countdownDuration;
       });}else{
       setState(() {
-        duration = Duration();
+        duration = const Duration();
       });
     }
   }
@@ -58,7 +58,7 @@ class _RestState extends State<Rest> {
 
   }
   void startTimer(){
-    timer = Timer.periodic(Duration(seconds: 1),(_) => addTime());
+    timer = Timer.periodic(const Duration(seconds: 1),(_) => addTime());
   }
   void stopTimer({bool resets = true}){
     if(resets){
@@ -85,7 +85,7 @@ class _RestState extends State<Rest> {
     final seconds = twoDigits(duration.inSeconds.remainder(60));
 
     return Text('$minutes:$seconds',
-      style: TextStyle(fontSize: 40,
+      style: const TextStyle(fontSize: 40,
           color: Colors.white,
           fontWeight: FontWeight.bold),
     );
@@ -97,20 +97,24 @@ class _RestState extends State<Rest> {
         child: Column(
           children: [
             ClipRRect(
-                borderRadius:  BorderRadius.only(bottomLeft: Radius.circular(35),bottomRight: Radius.circular(35)),
+                borderRadius:  const BorderRadius.only(bottomLeft: Radius.circular(35),bottomRight: Radius.circular(35)),
                 child: Image.asset('images/rest1png.png')),
-            Padding(padding: EdgeInsets.only(top: 100)),
-           BigText(
+            const Padding(padding: EdgeInsets.only(top: 100)),
+           const BigText(
                text: 'Rest',
                textcolor: Colors.white
            ),
-            Padding(padding: EdgeInsets.only(top: 15)),
+            const Padding(padding: EdgeInsets.only(top: 15)),
             _timer(),
-            Padding(padding: EdgeInsets.only(top: 50)),
+            const Padding(padding: EdgeInsets.only(top: 50)),
             ElevatedButton(
               onPressed: (){
                 Navigator.pop(context);
               },
+              style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  )),
               child: const SizedBox(
                   width: 120,
                   height: 50,
@@ -122,14 +126,9 @@ class _RestState extends State<Rest> {
                    weight: FontWeight.bold
                   )),
     ),
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  onPrimary: Colors.white),
 
             ),
-            Padding(padding: EdgeInsets.only(top: 20)),
+            const Padding(padding: EdgeInsets.only(top: 20)),
             ElevatedButton(
               onPressed: isButtonActive ?
                   (){
@@ -140,6 +139,11 @@ class _RestState extends State<Rest> {
                 });
 
               } : null,
+              style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, disabledForegroundColor: const Color.fromRGBO(255, 255, 255, 1.0).withOpacity(0.38), disabledBackgroundColor: const Color.fromRGBO(255, 255, 255, 1.0).withOpacity(0.12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  )),
               child: const SizedBox(
                 width: 120,
                 height: 50,
@@ -151,12 +155,6 @@ class _RestState extends State<Rest> {
                     weight: FontWeight.bold
                 ))
               ),
-              style: ElevatedButton.styleFrom(
-                  onSurface: Color.fromRGBO(255, 255, 255, 1.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  onPrimary: Colors.white),
             ),
           ],
         ),),

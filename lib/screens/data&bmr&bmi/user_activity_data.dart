@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gradproj/screens/data&bmr&bmi/bmrscreen.dart';
+import 'package:gradproj/screens/data&bmr&bmi/datascreen.dart';
 import 'package:gradproj/widgets/button.dart';
 import 'package:gradproj/widgets/cards.dart';
 
@@ -30,7 +31,7 @@ class _UserActivityDataState extends State<UserActivityData> {
   String _activity = exerciseList[0];
 
   late int age, weight, height;
-  late bool gender;
+  late Gender gender;
   int _current_index = 0;
   @override
   void initState() {
@@ -45,7 +46,7 @@ class _UserActivityDataState extends State<UserActivityData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  TextTitle(
+        title:  const TextTitle(
           text: "Activity level",
          textcolor: Colors.black
         ),
@@ -61,7 +62,7 @@ class _UserActivityDataState extends State<UserActivityData> {
                             return CustomCard(
                                 card_content: RadioListTile(
                                   title: Padding(
-                                    padding: EdgeInsets.only(top: 10),
+                                    padding: const EdgeInsets.only(top: 10),
                                 child: NormalText(
                                       text: exerciseList[_current_index],
                                       textcolor: Colors.black,
@@ -82,7 +83,7 @@ class _UserActivityDataState extends State<UserActivityData> {
                           }
                      )),
                          Padding(
-                           padding: EdgeInsets.only(top: 20,bottom: 20),
+                           padding: const EdgeInsets.only(top: 20,bottom: 20),
                          child: CalculateButton(
                             title: "Continue",
                             buttonbackcolor: kButtonColor,
@@ -100,7 +101,7 @@ class _UserActivityDataState extends State<UserActivityData> {
                               showDialog(context: context, builder:
                               (BuildContext context){
                                 return AlertDialog(
-                                  content: SubTitle(
+                                  content: const SubTitle(
                                     text: 'Do you want to save changes ?',
                                     textcolor: Colors.black,
                                     weight: FontWeight.normal,
@@ -123,7 +124,7 @@ class _UserActivityDataState extends State<UserActivityData> {
                                             ),
                                           );
                                         },
-                                        child: SmallText(
+                                        child: const SmallText(
                                           textcolor: kButtonColor,
                                           text: 'Cancel',
                                           weight: FontWeight.bold,
@@ -143,7 +144,7 @@ class _UserActivityDataState extends State<UserActivityData> {
                                               ),
                                             );
                                           },
-                                          child: Padding(
+                                          child: const Padding(
                                             padding: EdgeInsets.only(left: 100),
                                            child: SmallText(
                                             textcolor: kButtonColor,

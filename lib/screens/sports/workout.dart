@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gradproj/screens/main_screens/settings.dart';
 import 'package:gradproj/screens/sports/timer_trainings.dart';
 import 'package:gradproj/widgets/button.dart';
 import 'package:gradproj/widgets/image.dart';
 import 'package:gradproj/widgets/text.dart';
-
 import '../../theme/constants.dart';
-import '../main_screens/homepage.dart';
-import '../reports/reports.dart';
 import 'List_View1.dart';
 
 
@@ -29,10 +25,10 @@ class WorkoutScreenState extends State<Workout> {
               widget: Column(
               children: [
               Padding(
-                padding:  EdgeInsets.fromLTRB(20,20,15,15 ),
+                padding:  const EdgeInsets.fromLTRB(20,20,15,15 ),
               child: Row(
                 children: [
-                     SubTitle(
+                     const SubTitle(
                       text: '8 Exercises . 4 Mins ',
                       textcolor: kButtonColor,
                       weight: FontWeight.bold
@@ -43,7 +39,7 @@ class WorkoutScreenState extends State<Workout> {
                         title: 'Start',
                         onTap: (){
                           Navigator.of(context).push(
-                            MaterialPageRoute(builder: (v) => TimerTrainings(link: 'https://www.youtube.com/watch?v=ESJ6Ghvgr6k',))
+                            MaterialPageRoute(builder: (v) => const TimerTrainings(link: 'https://www.youtube.com/watch?v=kLmWN3Qsj0A',))
                           );
                         }, 
                         buttonbackcolor: kButtonColor,
@@ -52,7 +48,7 @@ class WorkoutScreenState extends State<Workout> {
                   ),
                 ],
               )),
-               SizedBox(height: 430,child: List1()),
+               const SizedBox(height: 430,child: List1()),
     ])
          ));
   }

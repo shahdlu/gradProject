@@ -19,7 +19,6 @@ class _WalkingState extends State<Walking> {
     return Scaffold(
         body: TopImage(
             imagesrc: 'images/walking.jpg',
-            widget:
             widget: Expanded(
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('walking').snapshots(),

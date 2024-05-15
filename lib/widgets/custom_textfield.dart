@@ -14,7 +14,10 @@ class CustomTextField extends StatelessWidget{
     required this.padding_top,
     required this.padding_right,
     required this.padding_bottom,
+    this.validator,
 });
+
+  final String Function(String?)? validator;
   final String hintText;
   final TextEditingController controller;
   final bool isPassword;
@@ -28,7 +31,12 @@ class CustomTextField extends StatelessWidget{
    return Expanded(
      child: Padding(
        padding: EdgeInsets.fromLTRB(padding_left, padding_top, padding_right, padding_bottom),
-     child: TextField(
+     child: TextFormField(
+       validator: (data) {
+         if(data!.isEmpty){
+           return  'this field is required';
+         } return null;
+       } ,
      onChanged: onChanged,
      style: const TextStyle(
          color: Color.fromRGBO(8, 97, 231, 1.0),
@@ -38,7 +46,7 @@ class CustomTextField extends StatelessWidget{
      decoration: InputDecoration(
        hintText: hintText,
        filled: true,
-       fillColor: Color.fromRGBO(236, 234, 234, 1.0),
+       fillColor: const Color.fromRGBO(236, 234, 234, 1.0),
        border: OutlineInputBorder(
          borderSide: BorderSide.none,
          borderRadius: BorderRadius.circular(15),

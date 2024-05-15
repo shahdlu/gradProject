@@ -20,7 +20,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     id = YoutubePlayer.convertUrlToId(widget.link)!;
     _controller = YoutubePlayerController(
       initialVideoId: id,
-      flags: YoutubePlayerFlags(
+      flags: const YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
         isLive: false,
@@ -36,7 +36,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         controller: _controller!,
         showVideoProgressIndicator: true,
         progressIndicatorColor: kButtonColor,
-        progressColors: ProgressBarColors(
+        progressColors: const ProgressBarColors(
           playedColor: kButtonColor,
           handleColor: kButtonColor,
         ),

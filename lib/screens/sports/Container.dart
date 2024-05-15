@@ -21,7 +21,7 @@ class Container1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new GestureDetector(
+    return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '1');
       },

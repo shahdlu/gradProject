@@ -57,7 +57,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
             card_content: OutlinedButton(
               onPressed: _showTimePicker,
               style: ElevatedButton.styleFrom(
-                primary: Colors.white,
+                backgroundColor: Colors.white,
                 side: BorderSide(width: 1.0, color: Colors.white),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(32.0),

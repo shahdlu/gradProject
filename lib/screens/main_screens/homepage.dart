@@ -40,20 +40,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
       appBar: AppBar(
          automaticallyImplyLeading: false,
         title:  Padding(
-          padding: EdgeInsets.only(left: 20),
+          padding: const EdgeInsets.only(left: 20),
             child: Row(
           children: [
-            TextTitle(
+            const TextTitle(
              text: 'Health pulse',
              textcolor: Colors.black,
             ),
             Padding(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: GestureDetector(
               onTap: (){
 
               },
-            child: Padding(
+            child: const Padding(
               padding: EdgeInsets.only(left: 40),
             child: SmallText(
                 text: 'Emergency',
@@ -67,11 +67,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
       body: Column(
         children: [
           Padding(
-        padding: EdgeInsets.only(top: 15),
+        padding: const EdgeInsets.only(top: 15),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SmallText(
+                const SmallText(
                   text: 'Currently Date: ',
                   textcolor: kButtonColor, // Set the color to blue
                   weight: FontWeight.bold,
@@ -81,12 +81,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
           )),
           Expanded(
             child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16.0,vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 15),
                 itemCount: photoPaths.length,
                 itemBuilder: (context , index){
                   _currentIndex = index;
                   return Padding(
-                      padding: EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(top: 20),
                      child: CustomRoundedImage(
                       imagesrc: photoPaths[_currentIndex],
                       action: (){
@@ -98,10 +98,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               MaterialPageRoute(builder: (v)=> SportsScreen()));
                         }else if(index == 2 ){
                           Navigator.of(context).push(
-                              MaterialPageRoute(builder: (v)=> FoodScreen()));
+                              MaterialPageRoute(builder: (v)=> const FoodScreen()));
                         }else if(index == 3 ){
                           Navigator.of(context).push(
-                              MaterialPageRoute(builder: (v)=> Medicine()));
+                              MaterialPageRoute(builder: (v)=> const Medicine()));
                         }
                         else if(index == 4 ){
                           Navigator.of(context).push(

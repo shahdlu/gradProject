@@ -19,7 +19,6 @@ class _DancingState extends State<Dancing> {
     return Scaffold(
         body: TopImage(
             imagesrc: 'images/dancing.jpg',
-            widget:
             widget: Expanded(
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('dancing').snapshots(),

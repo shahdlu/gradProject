@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:gradproj/screens/diabetes_info/some_information.dart';
+import 'package:gradproj/screens/foodpart/dinner.dart';
+import 'package:gradproj/screens/foodpart/lunch.dart';
 import 'package:gradproj/screens/foodpart/meals.dart';
-import 'package:gradproj/screens/medicaltests/MedicalTests.dart';
-import 'package:gradproj/screens/medicine/medicine1.dart';
-import 'package:gradproj/screens/sports/sports.dart';
-import 'package:gradproj/theme/constants.dart';
-import 'package:gradproj/widgets/calender.dart';
+import 'package:gradproj/screens/foodpart/snacks.dart';
 import 'package:gradproj/widgets/image.dart';
 import 'package:gradproj/widgets/text.dart';
 
+import 'breakfast.dart';
+
 
 class FoodScreen extends StatefulWidget {
+  const FoodScreen({super.key});
   @override
   _FoodScreenState createState() => _FoodScreenState();
 }
@@ -34,26 +34,41 @@ class _FoodScreenState extends State<FoodScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: TextTitle(
+          title: const TextTitle(
             text: 'Food',
             textcolor: Colors.black,
           )
       ),
       body: Expanded(
               child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0,vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 15),
                   itemCount: photoPaths.length,
                   itemBuilder: (context , index){
                     _currentIndex = index;
                     return Padding(
-                        padding: EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(top: 20),
                         child: CustomRoundedImage(
                           imagesrc: photoPaths[_currentIndex],
                           action: (){
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (v) => Meals(pageIndex: index))
-                            );
-                          },
+                            if(index == 0){
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (v)=> BreakfastScreen())
+                              );
+                            }else if(index == 1){
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (v)=> const LunchScreen())
+                              );
+                            }else if(index == 2){
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (v)=> const DinnerScreen())
+                              );
+                            }else if(index == 3){
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (v)=> const SnacksScreen())
+                              );
+                            }
+
+                        },
                           text: photoTexts[_currentIndex],
                         ));
                   }
