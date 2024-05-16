@@ -46,6 +46,16 @@ class _DataHomeScreenState extends State<DataHomeScreen> {
     users.doc(userId).update(userData)
         .then((value) => print("User data updated successfully"))
         .catchError((error) => print("Failed to update user data: $error"));
+
+    FirebaseFirestore.instance.collection('selected_items').doc(userId).set(
+        {
+          'gender': genderString,
+          'age': age,
+          'height': height,
+          'weight': weight,
+          'items' : [],
+        }
+    );
     }
 
   @override
@@ -98,33 +108,35 @@ class _DataHomeScreenState extends State<DataHomeScreen> {
           Expanded(
             flex: 2,
             child: CircularCard(
-              child: Column(
-                children: [
-                  const Text(
-                    "Height (cm)",
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: Text(
-                      height.toString(),
-                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Text(
+                      "Height (cm)",
+                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  Slider(
-                    value: height.toDouble(),
-                    onChanged: (value) {
-                      setState(() {
-                        height = value.toInt();
-                      });
-                    },
-                    activeColor: const Color(0xFF0861E7),
-                    thumbColor: const Color(0xFF0861E7),
-                    overlayColor: MaterialStateProperty.all(const Color.fromARGB(255, 165, 196, 241)),
-                    min: 120,
-                    max: 220,
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Text(
+                        height.toString(),
+                        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Slider(
+                      value: height.toDouble(),
+                      onChanged: (value) {
+                        setState(() {
+                          height = value.toInt();
+                        });
+                      },
+                      activeColor: const Color(0xFF0861E7),
+                      thumbColor: const Color(0xFF0861E7),
+                      overlayColor: MaterialStateProperty.all(const Color.fromARGB(255, 165, 196, 241)),
+                      min: 120,
+                      max: 220,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
