@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/screens/foodpart/selectedItems.dart';
 import 'package:gradproj/theme/constants.dart';
@@ -131,6 +132,39 @@ class SearchListViewItem extends StatefulWidget {
 }
 
 class _SearchListViewItemState extends State<SearchListViewItem> {
+  Future<void> _addItemToSelectedItems() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User not logged in')),
+      );
+      return;
+    }
+
+    final selectedItem = {
+      'name': widget.name,
+      'kcal': widget.kcal,
+    };
+
+    try {
+      final docRef = FirebaseFirestore.instance.collection('selected_items').doc(userId);
+
+      // Using FieldValue.arrayUnion to add the selected item to an array in Firestore
+      await docRef.set({
+        'items': FieldValue.arrayUnion([selectedItem]),
+      }, SetOptions(merge: true));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Item added to selected items')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to add item: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -172,9 +206,7 @@ class _SearchListViewItemState extends State<SearchListViewItem> {
                       icon: const Icon(
                         Icons.add_circle,
                       ),
-                      onPressed: () {
-                        setState(() {});
-                      },
+                      onPressed: _addItemToSelectedItems,
                     ),
                   ],
                 ),

@@ -100,10 +100,7 @@ class _DinnerScreenState extends State<DinnerScreen> {
                       onChecked: (isChecked) {
                         if (isChecked) {
                           selectedItems.add({
-                            'id': id,
                             'name': name,
-                            'desc': desc,
-                            'image': image,
                             'kcal': kcal,
                           });
                         } else {

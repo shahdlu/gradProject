@@ -98,10 +98,7 @@ class _BreakfastScreenState extends State<BreakfastScreen> {
                       onChecked: (isChecked) {
                         if (isChecked) {
                           selectedItems.add({
-                            'id': id,
                             'name': name,
-                            'desc': desc,
-                            'image': image,
                             'kcal': kcal,
                           });
                         } else {

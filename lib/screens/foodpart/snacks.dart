@@ -100,10 +100,7 @@ class _SnacksScreenState extends State<SnacksScreen> {
                       onChecked: (isChecked) {
                         if (isChecked) {
                           selectedItems.add({
-                            'id': id,
                             'name': name,
-                            'desc': desc,
-                            'image': image,
                             'kcal': kcal,
                           });
                         } else {
