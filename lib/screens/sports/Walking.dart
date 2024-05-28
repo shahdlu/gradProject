@@ -1,18 +1,18 @@
-import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/screens/sports/counter_trainings.dart';
 import 'package:gradproj/widgets/cards.dart';
 import 'package:gradproj/widgets/image.dart';
 import 'package:gradproj/widgets/text.dart';
 
-import '../../widgets/vedio.dart';
-
 class Walking extends StatefulWidget {
+  const Walking({super.key});
+
   @override
-  _WalkingState createState() => _WalkingState();
+  WalkingState createState() => WalkingState();
 }
-class _WalkingState extends State<Walking> {
+class WalkingState extends State<Walking> {
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class WalkingListViewItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return  CustomCard(
         card_content: Padding(
-            padding: EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 20),
             child: Row(
                 children: [
                   NormalText(
@@ -83,7 +83,7 @@ class WalkingListViewItem extends StatelessWidget {
                     textcolor: Colors.black, weight: FontWeight.bold,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 150),
+                    padding: const EdgeInsets.only(left: 150),
                     child: NormalText(
                       text: kcal,
                       textcolor: Colors.red,
@@ -97,7 +97,9 @@ class WalkingListViewItem extends StatelessWidget {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (v) => CounterTrainings(link: link, training_name: mile,))
           );
-          print(link);
+          if (kDebugMode) {
+            print(link);
+          }
         },
 
     );

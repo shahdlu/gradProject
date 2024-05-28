@@ -25,7 +25,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
       initialTime: TimeOfDay.now(),
       builder: (context , child) => Theme(
         data: ThemeData().copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
                 primary: kButtonColor,
                 onPrimary: Colors.white,
                 surface: Colors.white,
@@ -41,40 +41,38 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
       ),
     ).then((value) {
       setState(() {
-        _timeOfDay = value!;
+        _timeOfDay = value ?? TimeOfDay.now();
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-           CustomCard(
-             card_action: (){},
-             card_height: 50,
-            card_content: OutlinedButton(
-              onPressed: _showTimePicker,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                side: BorderSide(width: 1.0, color: Colors.white),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32.0),
-                ),
+    return Column(
+      children: [
+         CustomCard(
+           card_action: (){},
+           card_height: 50,
+          card_content: OutlinedButton(
+            onPressed: _showTimePicker,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              side: const BorderSide(width: 1.0, color: Colors.white),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(32.0),
               ),
-              child: Container(
-                padding: EdgeInsets.all(0.0),
-                child: SubTitle(
-                    text: _timeOfDay.format(context).toString(),
-                    textcolor: Colors.black, weight: FontWeight.bold,
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(0.0),
+              child: SubTitle(
+                  text: _timeOfDay.format(context).toString(),
+                  textcolor: Colors.black, weight: FontWeight.bold,
 
-                ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
