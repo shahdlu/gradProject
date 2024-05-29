@@ -90,7 +90,9 @@ class _LFT_PLUSState extends State<LFT_PLUS> {
                     ),
                     Row(
                         children: [
-                          Calender(),
+                          Calender(onDateChanged: (value) {
+                            
+                          },),
                         ]),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
@@ -107,7 +109,9 @@ class _LFT_PLUSState extends State<LFT_PLUS> {
                         padding: EdgeInsets.only(left: 30),
                         child: Row(
                             children: [
-                              CustomTimePicker(cancle_text: 'Cancel',),
+                              CustomTimePicker(cancle_text: 'Cancel',onTimeChanged: (value) {
+                                
+                              },),
                             ])),
                     Padding(
                         padding: EdgeInsets.only(top: 15),
@@ -125,6 +129,9 @@ class _LFT_PLUSState extends State<LFT_PLUS> {
                             children: [
                               CustomDropDownlist(
                                 selected: '1', items: lft_items, month_or_year: ' years',
+                                onChanged: (value) {
+                                  
+                                },
                               )])),
                     Padding(
                         padding: EdgeInsets.only(top: 20),

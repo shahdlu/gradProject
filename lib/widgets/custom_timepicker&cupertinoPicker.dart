@@ -1,15 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/widgets/text.dart';
 
 import '../theme/constants.dart';
 import 'cards.dart';
 
-
 class CustomTimePicker extends StatefulWidget {
-  String cancle_text;
+  final String cancle_text;
+  final ValueChanged<TimeOfDay> onTimeChanged;
 
-   CustomTimePicker({Key? myKey, required this.cancle_text}): super(key: myKey);
+  CustomTimePicker(
+      {Key? myKey, required this.cancle_text, required this.onTimeChanged})
+      : super(key: myKey);
 
   @override
   _CustomTimePickerState createState() => _CustomTimePickerState();
@@ -23,25 +24,25 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
       cancelText: widget.cancle_text,
       context: context,
       initialTime: TimeOfDay.now(),
-      builder: (context , child) => Theme(
+      builder: (context, child) => Theme(
         data: ThemeData().copyWith(
-            colorScheme: const ColorScheme.light(
-                primary: kButtonColor,
-                onPrimary: Colors.white,
-                surface: Colors.white,
-                onSurface: kButtonColor,
-                onBackground: Colors.white,
-                onSecondary: Colors.white,
-                secondary: kButtonColor,
-
-            ),
-            dialogBackgroundColor: Colors.white
+          colorScheme: const ColorScheme.light(
+            primary: kButtonColor,
+            onPrimary: Colors.white,
+            surface: Colors.white,
+            onSurface: kButtonColor,
+            onBackground: Colors.white,
+            onSecondary: Colors.white,
+            secondary: kButtonColor,
+          ),
+          dialogBackgroundColor: Colors.white,
         ),
         child: child as Widget,
       ),
     ).then((value) {
       setState(() {
         _timeOfDay = value ?? TimeOfDay.now();
+        widget.onTimeChanged(_timeOfDay);
       });
     });
   }
@@ -50,9 +51,9 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-         CustomCard(
-           card_action: (){},
-           card_height: 50,
+        CustomCard(
+          card_action: () {},
+          card_height: 50,
           card_content: OutlinedButton(
             onPressed: _showTimePicker,
             style: ElevatedButton.styleFrom(
@@ -65,9 +66,9 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
             child: Container(
               padding: const EdgeInsets.all(0.0),
               child: SubTitle(
-                  text: _timeOfDay.format(context).toString(),
-                  textcolor: Colors.black, weight: FontWeight.bold,
-
+                text: _timeOfDay.format(context).toString(),
+                textcolor: Colors.black,
+                weight: FontWeight.bold,
               ),
             ),
           ),
@@ -76,4 +77,3 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
     );
   }
 }
-

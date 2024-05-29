@@ -76,7 +76,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   textcolor: kButtonColor, // Set the color to blue
                   weight: FontWeight.bold,
                 ),
-               Calender(),
+               Calender(onDateChanged: (value) {
+                 
+               },),
               ],
           )),
           Expanded(

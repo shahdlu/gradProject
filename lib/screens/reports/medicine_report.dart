@@ -43,7 +43,9 @@ class _MedicineReportState extends State<MedicineReport> {
                 ),
                 Padding(
                     padding: EdgeInsets.only(left: 0),
-                    child:  Calender()
+                    child:  Calender(onDateChanged: (value) {
+                      
+                    },)
                 ),
               ]),
         ),

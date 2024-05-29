@@ -51,7 +51,9 @@ class _FoodReportState extends State<FoodReport> {
                 ),
                 Padding(
                     padding: EdgeInsets.only(left: 0),
-                    child:  Calender()
+                    child:  Calender(onDateChanged: (value) {
+                      
+                    },)
                 ),
               ]),
         ),

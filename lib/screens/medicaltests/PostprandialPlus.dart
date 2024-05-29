@@ -67,7 +67,9 @@ class _PostprandialPlusState extends State<PostprandialPlus> {
                     ),
                     Row(
                         children: [
-                          Calender(),
+                          Calender(onDateChanged: (value) {
+                            
+                          },),
                         ]),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
@@ -84,7 +86,7 @@ class _PostprandialPlusState extends State<PostprandialPlus> {
                         padding: EdgeInsets.only(left: 30),
                         child: Row(
                             children: [
-                              CustomTimePicker(cancle_text: 'Cancel',),
+                              CustomTimePicker(cancle_text: 'Cancel', onTimeChanged: (TimeOfDay value) {  },),
                             ])),
                     Padding(
                         padding: EdgeInsets.only(top: 200),
