@@ -83,7 +83,7 @@ class _A1cPLUSState extends State<A1cPLUS> {
 
         // Show a success message
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('A1C data saved successfully!')));
+            const SnackBar(content: Text('A1C data saved successfully!')));
       } catch (e) {
         // Show an error message if something goes wrong
         ScaffoldMessenger.of(context).showSnackBar(
@@ -92,7 +92,9 @@ class _A1cPLUSState extends State<A1cPLUS> {
     } else {
       // Show an error message
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please enter A1C and eAg percentages.')));
+          const SnackBar(
+              backgroundColor: Colors.red,
+              content: Text('Please enter A1C and eAg percentages.')));
     }
   }
 
@@ -102,17 +104,17 @@ class _A1cPLUSState extends State<A1cPLUS> {
       appBar: AppBar(
         foregroundColor: Colors.white,
         backgroundColor: kButtonColor,
-        title: TextTitle(
+        title: const TextTitle(
           text: 'A1C',
           textcolor: Colors.white,
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(30),
+          padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              Row(
+              const Row(
                 children: [
                   SubTitle(
                     text: 'A1C percentage',
@@ -134,7 +136,7 @@ class _A1cPLUSState extends State<A1cPLUS> {
                   ),
                 ],
               ),
-              Row(
+              const Row(
                 children: [
                   SubTitle(
                     text: 'eAg percentage',
@@ -156,8 +158,8 @@ class _A1cPLUSState extends State<A1cPLUS> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
+              const Padding(
+                padding: EdgeInsets.only(top: 15),
                 child: Row(
                   children: [
                     SubTitle(
@@ -179,8 +181,8 @@ class _A1cPLUSState extends State<A1cPLUS> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
+              const Padding(
+                padding: EdgeInsets.only(top: 15),
                 child: Row(
                   children: [
                     SubTitle(
@@ -192,7 +194,7 @@ class _A1cPLUSState extends State<A1cPLUS> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 30),
+                padding: const EdgeInsets.only(left: 30),
                 child: Row(
                   children: [
                     CustomTimePicker(
@@ -206,7 +208,7 @@ class _A1cPLUSState extends State<A1cPLUS> {
                   ],
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(top: 15),
                 child: Row(
                   children: [
@@ -219,7 +221,7 @@ class _A1cPLUSState extends State<A1cPLUS> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 20),
                 child: Row(
                   children: [
                     CustomDropDownlist(
@@ -236,7 +238,7 @@ class _A1cPLUSState extends State<A1cPLUS> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: CalculateButton(
                   title: 'Save',
                   onTap: saveA1cData,
