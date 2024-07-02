@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,23 +9,24 @@ import '../../theme/constants.dart';
 import '../../widgets/button.dart';
 
 class BreakfastScreen extends StatefulWidget {
+  const BreakfastScreen({super.key});
+
   @override
-  _BreakfastScreenState createState() => _BreakfastScreenState();
+  BreakfastScreenState createState() => BreakfastScreenState();
 }
 
-class _BreakfastScreenState extends State<BreakfastScreen> {
+class BreakfastScreenState extends State<BreakfastScreen> {
   final String userId = FirebaseAuth.instance.currentUser!.uid;
   final List<Map<String, dynamic>> selectedItems = [];
 
   void _addSelectedItems() async {
     if (selectedItems.isNotEmpty) {
-      DocumentReference userSelectedItemsDoc = FirebaseFirestore.instance
-          .collection('selected_items')
-          .doc(userId);
+      DocumentReference userSelectedItemsDoc =
+          FirebaseFirestore.instance.collection('selected_items').doc(userId);
 
-      await userSelectedItemsDoc.set({
-        'items': FieldValue.arrayUnion(selectedItems)
-      }, SetOptions(merge: true));
+      await userSelectedItemsDoc.set(
+          {'items': FieldValue.arrayUnion(selectedItems)},
+          SetOptions(merge: true));
 
       setState(() {
         selectedItems.clear();
@@ -61,7 +64,8 @@ class _BreakfastScreenState extends State<BreakfastScreen> {
       body: Column(
         children: [
           StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('breakfast').snapshots(),
+            stream:
+                FirebaseFirestore.instance.collection('breakfast').snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -116,7 +120,8 @@ class _BreakfastScreenState extends State<BreakfastScreen> {
             child: CalculateButton(
               title: 'Add another food',
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (v) => const SearchField()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (v) => const SearchField()));
               },
               buttonbackcolor: kButtonColor,
               buttontextcolor: Colors.white,

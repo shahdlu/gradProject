@@ -8,8 +8,8 @@ class List1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder(
+    return Expanded(
+      child: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('workout').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -34,6 +34,7 @@ class List1 extends StatelessWidget {
               var name = workout?['name'];
               var time = workout?['time'];
               var kcal = workout?['Kcal'];
+              var video = workout?['video'];
               var images = workout?['image'] as List<dynamic>;
 
               // Accessing image_1 and image_2 from the array of maps
@@ -45,6 +46,7 @@ class List1 extends StatelessWidget {
                 time: time,
                 kcal: kcal,
                 image1Url: image1Url,
+                videoUrl: video,
                 //  image2Url: image2Url,
               );
             },

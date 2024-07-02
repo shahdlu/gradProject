@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:gradproj/theme/constants.dart';
-import 'package:gradproj/widgets/button.dart';
-
 import '../../widgets/text.dart';
 
 const countdownDuration = Duration(seconds: 30);

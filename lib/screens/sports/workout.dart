@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gradproj/screens/sports/timer_trainings.dart';
-import 'package:gradproj/widgets/button.dart';
 import 'package:gradproj/widgets/image.dart';
-import 'package:gradproj/widgets/text.dart';
-import '../../theme/constants.dart';
 import 'List_View1.dart';
-
 
 class Workout extends StatefulWidget {
   const Workout({super.key});
@@ -18,39 +13,11 @@ class WorkoutScreenState extends State<Workout> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-          body: TopImage(
-            imagesrc: 'images/workout.jpg',
-              title: 'Workouts',
-              widget: Column(
-              children: [
-              Padding(
-                padding:  const EdgeInsets.fromLTRB(20,20,15,15 ),
-              child: Row(
-                children: [
-                     const SubTitle(
-                      text: '8 Exercises . 4 Mins ',
-                      textcolor: kButtonColor,
-                      weight: FontWeight.bold
-                    ),
-                  Padding(
-                      padding: const EdgeInsets.only( left: 10),
-                      child: CalculateButton(
-                        title: 'Start',
-                        onTap: (){
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (v) => const TimerTrainings(link: 'https://www.youtube.com/watch?v=kLmWN3Qsj0A',))
-                          );
-                        }, 
-                        buttonbackcolor: kButtonColor,
-                        buttontextcolor: Colors.white,
-                      )
-                  ),
-                ],
-              )),
-               const SizedBox(height: 430,child: List1()),
-    ])
-         ));
+    return const Scaffold(
+        body: TopImage(
+      imagesrc: 'images/workout.jpg',
+      title: 'Workouts',
+      widget: Expanded(child: List1()),
+    ));
   }
-
 }
