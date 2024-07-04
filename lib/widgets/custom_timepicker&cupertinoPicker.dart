@@ -8,16 +8,16 @@ class CustomTimePicker extends StatefulWidget {
   final String cancle_text;
   final ValueChanged<TimeOfDay> onTimeChanged;
 
-  CustomTimePicker(
+  const CustomTimePicker(
       {Key? myKey, required this.cancle_text, required this.onTimeChanged})
       : super(key: myKey);
 
   @override
-  _CustomTimePickerState createState() => _CustomTimePickerState();
+  CustomTimePickerState createState() => CustomTimePickerState();
 }
 
-class _CustomTimePickerState extends State<CustomTimePicker> {
-  TimeOfDay _timeOfDay = TimeOfDay(hour: 12, minute: 00);
+class CustomTimePickerState extends State<CustomTimePicker> {
+  TimeOfDay _timeOfDay = const TimeOfDay(hour: 12, minute: 00);
 
   void _showTimePicker() {
     showTimePicker(

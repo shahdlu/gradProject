@@ -20,7 +20,7 @@ class _MedicineReportState extends State<MedicineReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextTitle(
+        title: const TextTitle(
             text: 'Medicine',
             textcolor: Colors.black
         ),
@@ -33,16 +33,16 @@ class _MedicineReportState extends State<MedicineReport> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 20, top: 30),
+          padding: const EdgeInsets.only(left: 20, top: 30),
           child: Row(
               children: [
-                SubTitle(
+                const SubTitle(
                   text: 'select date',
                   textcolor: Colors.black,
                   weight: FontWeight.bold,
                 ),
                 Padding(
-                    padding: EdgeInsets.only(left: 0),
+                    padding: const EdgeInsets.only(left: 0),
                     child:  Calender(onDateChanged: (value) {
                       
                     },)
@@ -53,10 +53,10 @@ class _MedicineReportState extends State<MedicineReport> {
                       card_action: (){},
                         card_height: 570,
                         card_content: Padding(
-                           padding: EdgeInsets.only( right: 30),
+                           padding: const EdgeInsets.only( right:   30),
                         child: Column(
                           children: [
-                            Padding(
+                            const Padding(
                                 padding: EdgeInsets.only(left: 30, top: 20),
                                 child: Row(
                                     children: [
@@ -81,7 +81,7 @@ class _MedicineReportState extends State<MedicineReport> {
                                 itemBuilder: (context , index){
                                   _currentIndex = index;
                            return Padding(
-                               padding: EdgeInsets.only(left: 30,top: 20),
+                               padding: const EdgeInsets.only(left: 30,top: 20),
                              child: Row(
                               children: [
                                     SmallText(
@@ -90,13 +90,13 @@ class _MedicineReportState extends State<MedicineReport> {
                                       weight: FontWeight.bold,
                                     ),
                                Padding(
-                                 padding: EdgeInsets.only(left: 100),
+                                 padding: const EdgeInsets.only(left: 100),
                                child: SmallText(
                                       text: dosage[_currentIndex],
                                       textcolor: kButtonColor,
                                       weight: FontWeight.bold,
                                     )),
-                               Spacer(flex: 1,),
+                               const Spacer(flex: 1,),
                                   Icon(
                                     dosage_taken[_currentIndex]? Icons.check_circle : Icons.highlight_remove,
                                     color: dosage_taken[_currentIndex]? Colors.green : Colors.red,

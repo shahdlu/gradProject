@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gradproj/screens/medicaltests/A1C.dart';
 import 'package:gradproj/screens/medicine/CounterView%20.dart';
 import 'package:gradproj/widgets/button.dart';
 import 'package:gradproj/widgets/custom_textfield.dart';
 import '../../theme/constants.dart';
-import '../../widgets/custom_timepicker&cupertinoPicker.dart';
 import '../../widgets/text.dart';
-import 'medicine1.dart';
 
 class Add_med extends StatefulWidget {
   @override
@@ -83,7 +80,7 @@ class _Add_medState extends State<Add_med> {
 
         // Show a success message
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Medicine saved successfully!')));
+            const SnackBar(content: Text('Medicine saved successfully!')));
       } catch (e) {
         // Show an error message if something goes wrong
         ScaffoldMessenger.of(context).showSnackBar(
@@ -91,7 +88,7 @@ class _Add_medState extends State<Add_med> {
       }
     } else {
       // Show an error message
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content:
               Text('Please enter pill name, select times, and set dosage.')));
     }
@@ -167,6 +164,21 @@ class _Add_medState extends State<Add_med> {
                       ),
                       onPressed: () async {
                         TimeOfDay? pickedTime = await showTimePicker(
+                          builder: (context, child) => Theme(
+                            data: Theme.of(context).copyWith(
+                                colorScheme: const ColorScheme.light(
+                                  primary: kButtonColor,
+                                  onPrimary: Colors.white,
+                                  surface: Colors.white,
+                                  onSurface: kButtonColor,
+                                  onBackground: Colors.white,
+                                  onSecondary: Colors.white,
+                                  secondary: kButtonColor,
+                                ),
+                                cardColor: kButtonColor,
+                                primaryColor: kButtonColor),
+                            child: child!,
+                          ),
                           context: context,
                           initialTime: TimeOfDay.now(),
                         );
@@ -174,28 +186,31 @@ class _Add_medState extends State<Add_med> {
                           addTime(pickedTime);
                         }
                       },
-                      child: selectedTimes.isEmpty ? const Text("Add Time") : const Text("Add Another Time"),
+                      child: selectedTimes.isEmpty
+                          ? const Text("Add Time")
+                          : const Text("Add Another Time"),
                     ),
                   ],
                 ),
               ),
-              selectedTimes.isEmpty? const SizedBox.shrink():
-              const Padding(
-                padding: EdgeInsets.only(top: 30),
-                child: Row(
-                  children: [
-                    SubTitle(
-                      text: "Time of dosages",
-                      textcolor: Colors.black,
-                      weight: FontWeight.bold,
-                    )
-                  ],
-                ),
-              ),
+              selectedTimes.isEmpty
+                  ? const SizedBox.shrink()
+                  : const Padding(
+                      padding: EdgeInsets.only(top: 30),
+                      child: Row(
+                        children: [
+                          SubTitle(
+                            text: "Time of dosages",
+                            textcolor: Colors.black,
+                            weight: FontWeight.bold,
+                          )
+                        ],
+                      ),
+                    ),
               ...selectedTimes
                   .map((time) => Padding(
-                        padding: const EdgeInsets.only(top: 10,bottom: 10),
-                        child: Container(                          
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: Container(
                           width: 150,
                           height: 40,
                           decoration: BoxDecoration(
@@ -213,40 +228,36 @@ class _Add_medState extends State<Add_med> {
                             ],
                           ),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
-                    
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                               NormalText(
+                              NormalText(
                                 text: "${selectedTimes.indexOf(time) + 1}-",
                                 textcolor: Colors.black,
                                 weight: FontWeight.bold,
-                                
                               ),
-                             
-                  
-                                Text(time.format(context),
+                              Text(
+                                time.format(context),
                                 style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold
-                                ),
-                                ),
-                              
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
                         ),
                       ))
                   .toList(),
-              selectedTimes.isEmpty? const SizedBox.shrink():
-              Padding(
-                padding: const EdgeInsets.only(top: 60),
-                child: CalculateButton(
-                  title: 'Save',
-                  onTap: saveMedicine,
-                  buttonbackcolor: kButtonColor,
-                  buttontextcolor: Colors.white,
-                ),
-              ),
+              selectedTimes.isEmpty
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 60),
+                      child: CalculateButton(
+                        title: 'Save',
+                        onTap: saveMedicine,
+                        buttonbackcolor: kButtonColor,
+                        buttontextcolor: Colors.white,
+                      ),
+                    ),
             ],
           ),
         ),

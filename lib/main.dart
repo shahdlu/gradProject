@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradproj/cubit/auth_cubit/login_cubit/login_cubit.dart';
 import 'package:gradproj/cubit/auth_cubit/register_cubit/register_cubit.dart';
 import 'package:gradproj/screens/welcome&login/welcome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 import 'injection_container.dart' as di;
 
@@ -89,6 +90,9 @@ class _MyAppState extends State<MyApp> {
         title: 'Health Pulse',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.blue,
+          ),
         ),
         home: Welcome(),
       ),
