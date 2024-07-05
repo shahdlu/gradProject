@@ -1,46 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:gradproj/widgets/text.dart';
-
 import '../theme/constants.dart';
 
-
-
-class CustomCheckbox extends StatefulWidget{
+class CustomCheckbox extends StatefulWidget {
   const CustomCheckbox({
     super.key,
-    required this.checkbox_title,
-    required this.checkboxtitle_widget,
+    required this.checkboxTitle,
+    required this.checkboxtitleWidget,
+    required this.isChecked,
+    required this.onChanged,
   });
-  final String checkbox_title;
-  final Widget checkboxtitle_widget;
+  final String checkboxTitle;
+  final Widget checkboxtitleWidget;
+  final bool isChecked;
+  final ValueChanged<bool> onChanged;
+
   @override
   State<CustomCheckbox> createState() => _CustomCheckboxState();
-  }
+}
 
-  class _CustomCheckboxState extends State<CustomCheckbox> {
-   bool isChecked = false;
-   bool isNotFound = false;
+class _CustomCheckboxState extends State<CustomCheckbox> {
   @override
   Widget build(BuildContext context) {
-    if(widget.checkbox_title == 'Not Found'){
-      setState(() {
-        isNotFound = true;
-      });
-    }
     return CheckboxListTile(
-        activeColor: kButtonColor,
-        checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        controlAffinity: ListTileControlAffinity.leading,
-        title: widget.checkboxtitle_widget,
-        enabled: isNotFound? false : true,
-        value: isChecked,
-        onChanged: (val){
-          setState(() {
-            isChecked = val!;
-          });
-
+      activeColor: kButtonColor,
+      checkboxShape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+      controlAffinity: ListTileControlAffinity.leading,
+      title: widget.checkboxtitleWidget,
+      value: widget.isChecked,
+      onChanged: (val) {
+        if (val != null) {
+          widget.onChanged(val);
         }
+      },
     );
   }
-
 }

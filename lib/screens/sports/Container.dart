@@ -32,6 +32,8 @@ class Container1 extends StatelessWidget {
                 builder: (v) => CounterTrainings(
                       link: videoUrl,
                       trainingName: name,
+                      kcal: kcal,
+                      sport: 'Workout',
                     ))),
             card_content: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 8, 0, 10),

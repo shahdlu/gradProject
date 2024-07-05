@@ -1,66 +1,104 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gradproj/theme/constants.dart';
+import 'package:intl/intl.dart';
 import 'package:gradproj/widgets/calender.dart';
-import 'package:gradproj/widgets/cards.dart';
-
-import '../../theme/constants.dart';
 import '../../widgets/text.dart';
 
 class SportsReport extends StatefulWidget {
+  const SportsReport({super.key});
+
   @override
-  _SportsReportState createState() => _SportsReportState();
+  SportsReportState createState() => SportsReportState();
 }
 
-class _SportsReportState extends State<SportsReport> {
-  int _currentIndex = 0;
+class SportsReportState extends State<SportsReport> {
   DateTime selectedDate = DateTime.now();
-  List<String> sport_name = ['Walking', 'Dancing', 'Workouts'];
-  List<String> walking_kind = ['1 Mile', '3 Mile', '6 Mile'];
-  List<String> dancing_kind = ['Zomba', 'Dance'];
-  List<String> workouts_kind = ['Dynamic Chest'];
+  List<Map<String, dynamic>> sportData = [];
 
-  List<String> walking_kcal = ['100', '200', '300'];
-  List<String> dancing_kcal = ['100-150', '150 - 200'];
-  List<String> workouts_kcal = ['4.6'];
-  late List<String> sport_kind;
-  late List<String> sport_kcal;
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final docRef =
+        FirebaseFirestore.instance.collection('sports_report').doc(userId);
+
+    docRef.get().then((doc) {
+      if (doc.exists) {
+        final data = doc.data();
+        setState(() {
+          sportData = List<Map<String, dynamic>>.from(data!['entries'] ?? []);
+        });
+      }
+    }).catchError((error) {
+      print("Error fetching document: $error");
+    });
+  }
+
+  List<Map<String, dynamic>> _getFilteredData() {
+    final selectedDateString = DateFormat('M/d/yyyy').format(selectedDate);
+    final filteredData = sportData
+        .where((entry) => entry['date'] == selectedDateString)
+        .toList();
+
+    filteredData.sort((a, b) {
+      const order = ['Walking', 'Dancing', 'Workout'];
+      return order.indexOf(a['sport']).compareTo(order.indexOf(b['sport']));
+    });
+
+    return filteredData;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextTitle(text: 'Sports', textcolor: Colors.black),
+        title: const TextTitle(text: 'Sports', textcolor: Colors.black),
       ),
       body: _reportPageWidget(),
     );
   }
 
   Widget _reportPageWidget() {
+    final filteredData = _getFilteredData();
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(20, 30, 0, 20),
+          padding: const EdgeInsets.fromLTRB(20, 30, 0, 20),
           child: Row(children: [
-            SubTitle(
+            const SubTitle(
               text: 'select date',
               textcolor: Colors.black,
               weight: FontWeight.bold,
             ),
             Padding(
-                padding: EdgeInsets.only(left: 0),
+                padding: const EdgeInsets.only(left: 0),
                 child: Calender(
-                  onDateChanged: (value) {},
+                  onDateChanged: (value) {
+                    setState(() {
+                      selectedDate = value;
+                    });
+                  },
                 )),
           ]),
         ),
         Column(
           children: [
-            SubTitle(
+            const SubTitle(
                 text: 'Total',
                 textcolor: Colors.black,
                 weight: FontWeight.bold),
             Padding(
-              padding: EdgeInsets.only(bottom: 25),
+              padding: const EdgeInsets.only(bottom: 25),
               child: SmallText(
-                text: '304.6' + ' KCal',
+                text:
+                    '${filteredData.fold<num>(0, (sum, entry) => sum + (entry['kcal'] is int ? entry['kcal'] : int.tryParse(RegExp(r'\d+').stringMatch(entry['kcal']) ?? '0') ?? 0))} KCal',
                 textcolor: Colors.red,
                 weight: FontWeight.bold,
               ),
@@ -69,67 +107,48 @@ class _SportsReportState extends State<SportsReport> {
         ),
         Expanded(
           child: ListView.builder(
-              itemCount: 3,
+              itemCount: filteredData.length,
               itemBuilder: (context, index) {
-                _currentIndex = index;
-                if (index == 0) {
-                  sport_kind = walking_kind;
-                  sport_kcal = walking_kcal;
-                } else if (index == 1) {
-                  sport_kind = dancing_kind;
-                  sport_kcal = dancing_kcal;
-                } else if (index == 2) {
-                  sport_kind = workouts_kind;
-                  sport_kcal = workouts_kcal;
-                }
-                return CustomCard(
-                  card_height: 300,
-                  card_action: () {},
-                  card_content: Column(children: [
-                    Padding(
-                        padding: EdgeInsets.fromLTRB(30, 20, 45, 0),
-                        child: Row(children: [
-                          SmallText(
-                            text: sport_name[_currentIndex],
-                            textcolor: Colors.black,
-                            weight: FontWeight.bold,
-                          ),
-                          Spacer(
-                            flex: 1,
-                          ),
-                          SmallText(
-                            text: 'KCal',
-                            textcolor: Colors.black,
-                            weight: FontWeight.bold,
-                          ),
-                        ])),
-                    SizedBox(
-                        height: 250,
-                        child: ListView.builder(
-                            itemCount: sport_kind.length,
-                            itemBuilder: (context, index) {
-                              _currentIndex = index;
-                              return Padding(
-                                  padding: EdgeInsets.fromLTRB(30, 10, 40, 0),
-                                  child: Row(
-                                    children: [
-                                      SmallText(
-                                        text: sport_kind[_currentIndex],
-                                        textcolor: kButtonColor,
-                                        weight: FontWeight.bold,
-                                      ),
-                                      Spacer(
-                                        flex: 1,
-                                      ),
-                                      SmallText(
-                                        text: sport_kcal[_currentIndex],
-                                        textcolor: Colors.red,
-                                        weight: FontWeight.bold,
-                                      ),
-                                    ],
-                                  ));
-                            })),
-                  ]),
+                final entry = filteredData[index];
+                final sportKind = entry['name'] ?? 'Unknown';
+                final sportKcal = entry['kcal'] ?? '0';
+
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1,
+                        )),
+                    child: Column(children: [
+                      Row(children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SmallText(
+                              text: 'sport: ${entry['sport']}',
+                              textcolor: kButtonColor,
+                              weight: FontWeight.bold,
+                            ),
+                            SmallText(
+                              text: 'kind: $sportKind',
+                              textcolor: kButtonColor,
+                              weight: FontWeight.bold,
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        SmallText(
+                          text: '$sportKcal KCal',
+                          textcolor: Colors.red,
+                          weight: FontWeight.bold,
+                        ),
+                      ]),
+                    ]),
+                  ),
                 );
               }),
         ),

@@ -21,16 +21,19 @@ class Postprandial extends StatefulWidget {
 }
 
 class _PostprandialState extends State<Postprandial> {
-
   @override
   void initState() {
     super.initState();
   }
 
-  Future<void> deleteTest(String userId, List<Map<String, dynamic>> a1cTests, int index) async {
+  Future<void> deleteTest(
+      String userId, List<Map<String, dynamic>> a1cTests, int index) async {
     try {
       a1cTests.removeAt(index);
-      await FirebaseFirestore.instance.collection('postprandial').doc(userId).update({'tests': a1cTests});
+      await FirebaseFirestore.instance
+          .collection('postprandial')
+          .doc(userId)
+          .update({'tests': a1cTests});
       setState(() {});
     } catch (e) {
       print('Failed to delete postprandial test: $e');
@@ -54,10 +57,12 @@ class _PostprandialState extends State<Postprandial> {
                 child: pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
-                    pw.Text('Date: ${test['date']}', style: const pw.TextStyle(fontSize: 18)),
-                    pw.Text('Time: ${test['time']}', style: const pw.TextStyle(fontSize: 18)),
-                    pw.Text('blood Sugar: ${test['bloodSugar']}%', style: const pw.TextStyle(fontSize: 18)),
-
+                    pw.Text('Date: ${test['date']}',
+                        style: const pw.TextStyle(fontSize: 18)),
+                    pw.Text('Time: ${test['time']}',
+                        style: const pw.TextStyle(fontSize: 18)),
+                    pw.Text('blood Sugar: ${test['bloodSugar']}%',
+                        style: const pw.TextStyle(fontSize: 18)),
                   ],
                 ),
               );
@@ -67,7 +72,8 @@ class _PostprandialState extends State<Postprandial> {
       ),
     );
 
-    await Printing.sharePdf(bytes: await pdf.save(), filename: 'postprandial.pdf');
+    await Printing.sharePdf(
+        bytes: await pdf.save(), filename: 'postprandial.pdf');
   }
 
   @override
@@ -78,7 +84,7 @@ class _PostprandialState extends State<Postprandial> {
         foregroundColor: Colors.white,
         backgroundColor: kButtonColor,
         title: Row(
-mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const TextTitle(
               text: 'Postprandial',
@@ -87,7 +93,10 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
             GestureDetector(
               onTap: () async {
                 List<Map<String, dynamic>> a1cTests = [];
-                DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('A1C').doc(userId).get();
+                DocumentSnapshot userDoc = await FirebaseFirestore.instance
+                    .collection('A1C')
+                    .doc(userId)
+                    .get();
                 if (userDoc.exists) {
                   a1cTests = List<Map<String, dynamic>>.from(userDoc['tests']);
                 }
@@ -103,7 +112,10 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
       ),
       body: StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance.collection('postprandial').doc(userId).snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('postprandial')
+            .doc(userId)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -114,13 +126,17 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Center(child: Text('No postprandial data found, please add your tests!',style: Styles.textStyle18,)),
+                const Center(
+                    child: Text(
+                  'No postprandial data found, please add your tests!',
+                  style: Styles.textStyle18,
+                )),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),
                   child: RawMaterialButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const A1cPLUS(),
+                        builder: (context) => const PostprandialPlus(),
                       ));
                     },
                     elevation: 2.0,
@@ -138,7 +154,8 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
             );
           }
 
-          List<Map<String, dynamic>> a1cTests = List<Map<String, dynamic>>.from(snapshot.data!['tests']);
+          List<Map<String, dynamic>> a1cTests =
+              List<Map<String, dynamic>>.from(snapshot.data!['tests']);
 
           return Column(
             children: [

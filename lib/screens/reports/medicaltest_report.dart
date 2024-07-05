@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gradproj/core/widgets/style.dart';
 import 'package:gradproj/widgets/button.dart';
 
 import '../../theme/constants.dart';
@@ -12,163 +15,298 @@ class MedicalTestsReport extends StatefulWidget {
 
 class _MedicalTestsReportState extends State<MedicalTestsReport> {
   int _currentIndex = 0;
-  List<String> test_name = ['A1C','A1C','Postprandial blood','LFT','LFT'];
-  List<String> test_kind = ['A1C','eAg','Blood sugar','ALT','AST'];
-  List<String> eAg_perc = ['7.0','5.0'];
-  List<String> a1c_perc = ['6','20'];
-  List<String> sugar_perc = ['200','140','150'];
+  List<String> test_name = ['A1C', 'A1C', 'Postprandial blood', 'LFT', 'LFT'];
+  List<String> test_kind = ['A1C', 'eAg', 'Blood sugar', 'ALT', 'AST'];
+  List<String> eAg_perc = ['7.0', '5.0'];
+  List<String> a1c_perc = ['6', '20'];
+  List<String> sugar_perc = ['200', '140', '150'];
   List<String> alt_perc = ['24'];
   List<String> ast_perc = ['42'];
-  List<String> a1c_time =  ['5 pm','8 am'];
-  List<String> postprandal_time =  ['10 pm','5 pm','12 am'];
+  List<String> a1c_time = ['5 pm', '8 am'];
+  List<String> postprandal_time = ['10 pm', '5 pm', '12 am'];
   List<String> lft_time = ['6 pm'];
-  List<String> a1c_date =  ['5-5-2024','10-5-2024'];
-  List<String> postprandal_date =  ['8-30-2020','6-12-2024','9-6-2024'];
+  List<String> a1c_date = ['5-5-2024', '10-5-2024'];
+  List<String> postprandal_date = ['8-30-2020', '6-12-2024', '9-6-2024'];
   List<String> lft_date = ['7-9-2024'];
-  late List<String> test_perc ;
-  late List<String> test_time ;
-  late List<String> test_date ;
+  late List<String> test_perc;
+  late List<String> test_time;
+  late List<String> test_date;
   late String second_text;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextTitle(
+        title: const TextTitle(
           text: 'Medical Tests',
           textcolor: Colors.black,
         ),
-
       ),
-      body: _reportPageWidget(),
-    );
-
-  }
-  Widget _reportPageWidget(){
-    return Padding(padding: EdgeInsets.only(top: 30),
-      child: Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context,index){
-                if(index == 0){
-                  test_perc = a1c_perc ;
-                  test_time = a1c_time;
-                  test_date = a1c_date;
-                  second_text = ' %';
-                }else if(index == 1){
-                  test_perc = eAg_perc ;
-                  test_time = a1c_time;
-                  test_date = a1c_date;
-                  second_text = ' mmol';
-                }else if(index == 2){
-                  test_perc = sugar_perc ;
-                  test_time = postprandal_time;
-                  test_date = postprandal_date;
-                  second_text = ' mg/dl';
-                }else if(index == 3){
-                  test_perc = alt_perc ;
-                  test_time = lft_time;
-                  test_date = lft_date;
-                  second_text = ' UI/I';
-                }else if(index == 3){
-                  test_perc = ast_perc ;
-                  test_time = lft_time;
-                  test_date = lft_date;
-                  second_text = ' UI/I';
-                }
-                _currentIndex = index;
-                return CustomCard(
-                        card_height: 300,
-                        card_action: (){},
-                        card_content: Column(
-                          children: [
-                        Padding(
-                        padding: EdgeInsets.only(left: 30, top: 20),
-                            child: Row(
-                                children: [
-                                  SmallText(
-                                  text: test_name[_currentIndex]+' :',
-                                  textcolor: Colors.black,
-                                    weight: FontWeight.bold,
-                            )])),
-                             Padding(
-                                padding: EdgeInsets.only(left: 30, top: 15),
-                                child: Row(
-                                    children: [
-                                      SmallText(
-                                        text: test_kind[_currentIndex],
-                                        textcolor: Colors.black,
-                                        weight: FontWeight.bold,
-                                      ),
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 40),
-                                          child: SmallText(
-                                            text: 'Time',
-                                            textcolor: Colors.black,
-                                            weight: FontWeight.bold,
-                                          )),
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 30),
-                                          child: SmallText(
-                                            text: 'Date',
-                                            textcolor: Colors.black,
-                                            weight: FontWeight.bold,
-                                          )),
-                                    ]
-                                )),
-                            SizedBox(
-                              height: 200,
-                            child: ListView.builder(
-                             itemCount: test_perc.length,
-                             itemBuilder: (context , index){
-                               _currentIndex = index;
-                             return Padding(
-                                   padding: EdgeInsets.only(left: 30, top :10),
-                               child: Row(
-                              children: [
-                                      SmallText(
-                                      text: test_perc[_currentIndex] + second_text,
-                                      textcolor: kButtonColor,
-                                      weight: FontWeight.bold,
-                                    ),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: SmallText(
-                                      text: test_time[_currentIndex],
-                                      textcolor: Colors.red,
-                                      weight: FontWeight.bold,
-                                    )),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: SmallText(
-                                      text: test_date[_currentIndex],
-                                      textcolor: Colors.red,
-                                      weight: FontWeight.bold,
-                                    )),
-                              ],
-                               ));}
-                )),
-
-                          ],
-                        )
-
-                );
-              }
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            a1cBody(),
+            postprandialBody(),
+            lftBody(),
+          ],
         ),
-      Padding(padding: EdgeInsets.only(top: 20,bottom: 30),
-      child: CalculateButton(
-          title: 'Download',
-          onTap: (){
-
-          },
-          buttonbackcolor: kButtonColor,
-          buttontextcolor: Colors.white
-      )
       ),
+    );
+  }
 
-      ],
-    ));
+  StreamBuilder<DocumentSnapshot<Object?>> a1cBody() {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('A1C')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          return const SizedBox();
+        }
+
+        List<Map<String, dynamic>> a1cTests =
+            List<Map<String, dynamic>>.from(snapshot.data!['tests']);
+
+        return Column(
+          children: [
+            const Text(
+              'A1C Tests',
+              style: Styles.textStyle18,
+            ),
+            const SizedBox(height: 15),
+            Container(
+              height: 200,
+              margin: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black),
+              ),
+              child: Expanded(
+                child: ListView.builder(
+                  itemCount: a1cTests.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(0),
+                            border: const Border(
+                              bottom: BorderSide(color: Colors.grey),
+                            )),
+                        child: Column(children: [
+                          Row(children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SmallText(
+                                  text:
+                                      'eAg: ${a1cTests[index]['eAg_percentage']} mmol',
+                                  textcolor: kButtonColor,
+                                  weight: FontWeight.bold,
+                                ),
+                                SmallText(
+                                  text: 'date: ${a1cTests[index]['date']}',
+                                  textcolor: kButtonColor,
+                                  weight: FontWeight.bold,
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            SmallText(
+                              text: 'time: ${a1cTests[index]['time']}',
+                              textcolor: Colors.red,
+                              weight: FontWeight.bold,
+                            ),
+                          ]),
+                        ]),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  StreamBuilder<DocumentSnapshot<Object?>> postprandialBody() {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('postprandial')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          return const SizedBox();
+        }
+
+        List<Map<String, dynamic>> a1cTests =
+            List<Map<String, dynamic>>.from(snapshot.data!['tests']);
+
+        return Column(
+          children: [
+            const SizedBox(height: 15),
+            const Text(
+              'Postprandial Tests',
+              style: Styles.textStyle18,
+            ),
+            const SizedBox(height: 15),
+            Container(
+              height: 200,
+              margin: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black),
+              ),
+              child: Expanded(
+                child: ListView.builder(
+                  itemCount: a1cTests.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(0),
+                            border: const Border(
+                              bottom: BorderSide(color: Colors.grey),
+                            )),
+                        child: Column(children: [
+                          Row(children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SmallText(
+                                  text:
+                                      'blood sugar: ${a1cTests[index]['bloodSugar']} mg/dL',
+                                  textcolor: kButtonColor,
+                                  weight: FontWeight.bold,
+                                ),
+                                SmallText(
+                                  text: 'date: ${a1cTests[index]['date']}',
+                                  textcolor: kButtonColor,
+                                  weight: FontWeight.bold,
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            SmallText(
+                              text: 'time: ${a1cTests[index]['time']}',
+                              textcolor: Colors.red,
+                              weight: FontWeight.bold,
+                            ),
+                          ]),
+                        ]),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  StreamBuilder<DocumentSnapshot<Object?>> lftBody() {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('LFT')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          return const SizedBox();
+        }
+
+        List<Map<String, dynamic>> a1cTests =
+            List<Map<String, dynamic>>.from(snapshot.data!['tests']);
+
+        return Column(
+          children: [
+            const SizedBox(height: 15),
+            const Text(
+              'LFT Tests',
+              style: Styles.textStyle18,
+            ),
+            const SizedBox(height: 15),
+            Container(
+              height: 200,
+              margin: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black),
+              ),
+              child: Expanded(
+                child: ListView.builder(
+                  itemCount: a1cTests.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(0),
+                            border: const Border(
+                              bottom: BorderSide(color: Colors.grey),
+                            )),
+                        child: Column(children: [
+                          Row(children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SmallText(
+                                  text:
+                                      'ALT: ${a1cTests[index]['ALT_percentage']} UI/l ',
+                                  textcolor: kButtonColor,
+                                  weight: FontWeight.bold,
+                                ),
+                                SmallText(
+                                  text:
+                                      'AST: ${a1cTests[index]['AST_percentage']} UI/l ',
+                                  textcolor: kButtonColor,
+                                  weight: FontWeight.bold,
+                                ),
+                                SmallText(
+                                  text: 'date: ${a1cTests[index]['date']}',
+                                  textcolor: kButtonColor,
+                                  weight: FontWeight.bold,
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            SmallText(
+                              text: 'time: ${a1cTests[index]['time']}',
+                              textcolor: Colors.red,
+                              weight: FontWeight.bold,
+                            ),
+                          ]),
+                        ]),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

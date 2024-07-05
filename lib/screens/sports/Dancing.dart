@@ -104,6 +104,8 @@ class DancingListViewItem extends StatelessWidget {
             builder: (v) => CounterTrainings(
                   link: link,
                   trainingName: name,
+                  kcal: kcal,
+                  sport: 'Dancing',
                 )));
         print(link);
       },

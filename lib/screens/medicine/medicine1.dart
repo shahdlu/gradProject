@@ -67,7 +67,14 @@ class _MedicineState extends State<Medicine> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (snapshot.data!.data() == null) {
+
+            dynamic data = snapshot.data!.data();
+            List<dynamic> medicines = [];
+            if (data != null && data is Map<String, dynamic>) {
+              medicines = data['medicines'] ?? [];
+            }
+
+            if (medicines.isEmpty) {
               return const SizedBox(
                 height: 200,
                 child: Center(
@@ -79,7 +86,6 @@ class _MedicineState extends State<Medicine> {
               );
             }
 
-            var medicines = snapshot.data!['medicines'] as List<dynamic>;
             return SizedBox(
               height: 350,
               child: ListView.builder(
@@ -112,14 +118,24 @@ class _MedicineState extends State<Medicine> {
                             child: Column(
                               children: List<Widget>.generate(
                                 (medicine['times'] as List<dynamic>).length,
-                                (timeIndex) => CustomCheckbox(
-                                  checkbox_title: medicine['times'][timeIndex],
-                                  checkboxtitle_widget: SmallText(
-                                    text: medicine['times'][timeIndex],
-                                    textcolor: Colors.black,
-                                    weight: FontWeight.normal,
-                                  ),
-                                ),
+                                (timeIndex) {
+                                  var timeEntry = medicine['times'][timeIndex];
+                                  String time = timeEntry['time'].toString();
+                                  bool isTaken = timeEntry['isTaken'];
+
+                                  return CustomCheckbox(
+                                    checkboxTitle: time,
+                                    checkboxtitleWidget: SmallText(
+                                      text: time,
+                                      textcolor: Colors.black,
+                                      weight: FontWeight.normal,
+                                    ),
+                                    isChecked: isTaken,
+                                    onChanged: (val) {
+                                      _updateMedicine(index, timeIndex, val);
+                                    },
+                                  );
+                                },
                               ),
                             ),
                           ),
@@ -173,16 +189,22 @@ class _MedicineState extends State<Medicine> {
   Future<void> _deleteMedicine(int index) async {
     DocumentReference docRef =
         FirebaseFirestore.instance.collection('medicine').doc(userId);
-
-    // Get the current document
     DocumentSnapshot doc = await docRef.get();
     if (doc.exists) {
-      List<dynamic> medicines = doc['medicines'];
-
-      // Remove the medicine at the specified index
+      List<dynamic> medicines = doc['medicines'] ?? [];
       medicines.removeAt(index);
+      await docRef.update({'medicines': medicines});
+    }
+  }
 
-      // Update the document
+  Future<void> _updateMedicine(
+      int medIndex, int timeIndex, bool isChecked) async {
+    DocumentReference docRef =
+        FirebaseFirestore.instance.collection('medicine').doc(userId);
+    DocumentSnapshot doc = await docRef.get();
+    if (doc.exists) {
+      List<dynamic> medicines = doc['medicines'] ?? [];
+      medicines[medIndex]['times'][timeIndex]['isTaken'] = isChecked;
       await docRef.update({'medicines': medicines});
     }
   }

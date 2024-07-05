@@ -7,15 +7,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../welcome&login/login.dart';
 
 class Settings extends StatefulWidget {
+  const Settings({super.key});
+
   @override
-  State<Settings> createState() => _SettingsState();
+  State<Settings> createState() => SettingsState();
 }
 
-class _SettingsState extends State<Settings> {
+class SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const TextTitle(
           text: 'Settings',
           textcolor: Colors.black,
@@ -36,10 +39,14 @@ class _SettingsState extends State<Settings> {
             num age = userData['age'];
             var heightInMeter = height / 100;
             var bmi = (weight / (heightInMeter * heightInMeter));
-            var bmrMale =
-                (10 * weight.toDouble()) + (6.25 * height.toDouble()) - (5 * age) + 5;
-            var bmrFemale =
-                (10 * weight.toDouble()) + (6.25 * height.toDouble()) - (5 * age) - 161;
+            var bmrMale = (10 * weight.toDouble()) +
+                (6.25 * height.toDouble()) -
+                (5 * age) +
+                5;
+            var bmrFemale = (10 * weight.toDouble()) +
+                (6.25 * height.toDouble()) -
+                (5 * age) -
+                161;
             return Padding(
               padding: const EdgeInsets.only(left: 25, top: 25),
               child: Column(
@@ -144,6 +151,7 @@ class _SettingsState extends State<Settings> {
                     onTap: () async {
                       await FirebaseAuth.instance.signOut();
                       Navigator.push(
+                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                           builder: (context) => const Login(),
@@ -168,9 +176,12 @@ class _SettingsState extends State<Settings> {
   }
 
   void _showEditModal(BuildContext context, Map<String, dynamic> userData) {
-    TextEditingController heightController = TextEditingController(text: userData['height'].toString());
-    TextEditingController weightController = TextEditingController(text: userData['weight'].toString());
-    TextEditingController ageController = TextEditingController(text: userData['age'].toString());
+    TextEditingController heightController =
+        TextEditingController(text: userData['height'].toString());
+    TextEditingController weightController =
+        TextEditingController(text: userData['weight'].toString());
+    TextEditingController ageController =
+        TextEditingController(text: userData['age'].toString());
     String gender = userData['gender'];
 
     showModalBottomSheet(
@@ -178,7 +189,7 @@ class _SettingsState extends State<Settings> {
       builder: (context) {
         return SingleChildScrollView(
           child: Padding(
-            padding:  const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.90,
               child: Column(
@@ -188,16 +199,15 @@ class _SettingsState extends State<Settings> {
                     value: gender,
                     items: ['male', 'female']
                         .map((label) => DropdownMenuItem(
-                      value: label,
-                      child: Text(label),
-                    ))
+                              value: label,
+                              child: Text(label),
+                            ))
                         .toList(),
                     onChanged: (value) {
                       gender = value!;
                     },
                     decoration: const InputDecoration(labelText: 'Gender'),
                   ),
-
                   TextField(
                     controller: heightController,
                     decoration: const InputDecoration(labelText: 'Height (cm)'),
@@ -213,7 +223,9 @@ class _SettingsState extends State<Settings> {
                     decoration: const InputDecoration(labelText: 'Age'),
                     keyboardType: TextInputType.number,
                   ),
-                  const SizedBox(height: 30,),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
@@ -237,7 +249,11 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  void _updateUserData({required int height, required int weight, required int age, required String gender}) {
+  void _updateUserData(
+      {required int height,
+      required int weight,
+      required int age,
+      required String gender}) {
     final String userId = FirebaseAuth.instance.currentUser!.uid;
 
     final userData = {
@@ -247,7 +263,10 @@ class _SettingsState extends State<Settings> {
       'gender': gender,
     };
 
-    FirebaseFirestore.instance.collection('users').doc(userId).update(userData)
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .update(userData)
         .then((value) => print("User data updated successfully"))
         .catchError((error) => print("Failed to update user data: $error"));
   }
