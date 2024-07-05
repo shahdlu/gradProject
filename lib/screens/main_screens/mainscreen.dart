@@ -8,54 +8,54 @@ import 'package:intl/intl.dart';
 import '../../core/widgets/style.dart';
 import 'homepage.dart';
 
- class MainPage extends StatefulWidget {
+class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  Widget _homeWidget = const HomePageScreen();
+
+  Future<bool> onWillPop() async {
+    bool type = false;
+    await Future.delayed(
+      Duration.zero,
+      () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              title: Text(
+                'Are you sure to close the app?',
+                style: Styles.textStyle22.copyWith(fontWeight: FontWeight.w500),
+                textAlign: TextAlign.end,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      type = false;
+                      Navigator.pop(context);
+                    },
+                    child: const Text('No', style: Styles.textStyle16)),
+                TextButton(
+                    onPressed: () {
+                      type = true;
+                      SystemNavigator.pop();
+                    },
+                    child: const Text(
+                      'Yes',
+                      style: Styles.textStyle16,
+                    )),
+              ],
+            );
+          },
+        );
+      },
+    );
+    return type;
   }
 
-   class _MainPageState extends State<MainPage> {
-   Widget _homeWidget = HomePageScreen();
-
-   Future<bool> onWillPop() async {
-     bool type = false;
-     await Future.delayed(
-       Duration.zero,
-           () {
-         showDialog(
-           context: context,
-           builder: (BuildContext context) {
-             return AlertDialog(
-               backgroundColor: Colors.white,
-               title: Text(
-                 'Are you sure to close the app?',
-                 style:
-                 Styles.textStyle22.copyWith(fontWeight: FontWeight.w500),
-                 textAlign: TextAlign.end,
-               ),
-               actions: [
-                 TextButton(
-                     onPressed: () {
-                       type = false;
-                       Navigator.pop(context);
-                     },
-                     child: const Text('No', style: Styles.textStyle16)),
-                 TextButton(
-                     onPressed: () {
-                       type = true;
-                       SystemNavigator.pop();
-                     },
-                     child: const Text(
-                       'Yes',
-                       style: Styles.textStyle16,
-                     )),
-               ],
-             );
-           },
-         );
-       },
-     );
-     return type;
-   }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -65,17 +65,17 @@ import 'homepage.dart';
           bottomNavigationBar: NavigationBarGNav(
             showhomewidget: () {
               setState(() {
-                _homeWidget = HomePageScreen();
+                _homeWidget = const HomePageScreen();
               });
             },
             showreportwidget: () {
               setState(() {
-                _homeWidget = Reports();
+                _homeWidget = const Reports();
               });
             },
             showsettingswidget: () {
               setState(() {
-                _homeWidget = Settings();
+                _homeWidget = const Settings();
               });
             },
           )),

@@ -4,15 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:gradproj/screens/medicine/CounterView%20.dart';
 import 'package:gradproj/widgets/button.dart';
 import 'package:gradproj/widgets/custom_textfield.dart';
+import 'package:intl/intl.dart';
 import '../../theme/constants.dart';
 import '../../widgets/text.dart';
 
 class Add_med extends StatefulWidget {
+  const Add_med({super.key});
+
   @override
-  _Add_medState createState() => _Add_medState();
+  Add_medState createState() => Add_medState();
 }
 
-class _Add_medState extends State<Add_med> {
+class Add_medState extends State<Add_med> {
   TextEditingController pillNameController = TextEditingController();
   List<TimeOfDay> selectedTimes = [];
   double dosage = 0;
@@ -34,8 +37,9 @@ class _Add_medState extends State<Add_med> {
 
     if (pillName.isNotEmpty && selectedTimes.isNotEmpty && dosage > 0) {
       // Convert times to a readable format
-      List<String> times =
-          selectedTimes.map((time) => time.format(context)).toList();
+      List<Map<String, dynamic>> times = selectedTimes
+          .map((time) => {'time': time.format(context), 'isTaken': false})
+          .toList();
 
       try {
         String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -55,23 +59,23 @@ class _Add_medState extends State<Add_med> {
                 'pill_name': pillName,
                 'times': times,
                 'dosage': dosage,
+                'date': DateFormat('M/d/yyyy').format(DateTime.now()),
               }
             ])
           });
         } else {
-          // If the document does not exist, create a new one with the medicines array
           userDoc.set({
             'medicines': [
               {
                 'pill_name': pillName,
                 'times': times,
                 'dosage': dosage,
+                'date': DateFormat('M/d/yyyy').format(DateTime.now()),
               }
             ]
           });
         }
 
-        // Clear the fields after saving
         pillNameController.clear();
         setState(() {
           selectedTimes.clear();
@@ -154,9 +158,12 @@ class _Add_medState extends State<Add_med> {
                   children: [
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(kButtonColor),
-                        foregroundColor: WidgetStateProperty.all(Colors.white),
-                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                        backgroundColor:
+                            MaterialStateProperty.all(kButtonColor),
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),

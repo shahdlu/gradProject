@@ -1,119 +1,202 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gradproj/theme/constants.dart';
 import 'package:gradproj/widgets/cards.dart';
-
-import '../../theme/constants.dart';
-import '../../widgets/calender.dart';
+import 'package:intl/intl.dart';
+import 'package:gradproj/widgets/calender.dart';
 import '../../widgets/text.dart';
 
 class MedicineReport extends StatefulWidget {
+  const MedicineReport({super.key});
+
   @override
-  _MedicineReportState createState() => _MedicineReportState();
+  MedicineReportState createState() => MedicineReportState();
 }
 
-class _MedicineReportState extends State<MedicineReport> {
-  int _currentIndex = 0;
+class MedicineReportState extends State<MedicineReport> {
   DateTime selectedDate = DateTime.now();
-  List<String> medicine_name = ['metformin','omega3'];
-  List<String> dosage = ['2','1'];
-  List<bool> dosage_taken = [true , false];
+  List<Map<String, dynamic>> medicineData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final docRef =
+        FirebaseFirestore.instance.collection('medicine').doc(userId);
+
+    docRef.get().then((doc) {
+      if (doc.exists) {
+        final data = doc.data();
+        setState(() {
+          medicineData =
+              List<Map<String, dynamic>>.from(data!['medicines'] ?? []);
+        });
+      }
+    }).catchError((error) {
+      print("Error fetching document: $error");
+    });
+  }
+
+  List<Map<String, dynamic>> _getFilteredData() {
+    final selectedDateString = DateFormat('M/d/yyyy').format(selectedDate);
+    return medicineData
+        .where((entry) => entry['date'] == selectedDateString)
+        .toList();
+  }
+
+  bool _allMedicinesTaken(List<Map<String, dynamic>> data) {
+    for (var entry in data) {
+      List<dynamic> times = entry['times'];
+      bool allTimesTaken =
+          times.every((timeEntry) => timeEntry['isTaken'] ?? false);
+      if (!allTimesTaken) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final filteredData = _getFilteredData();
+    final allTaken = _allMedicinesTaken(filteredData);
+
     return Scaffold(
       appBar: AppBar(
-        title: const TextTitle(
-            text: 'Medicine',
-            textcolor: Colors.black
+        title:
+            const TextTitle(text: 'Medicine Report', textcolor: Colors.black),
+      ),
+      body: _reportPageWidget(filteredData, allTaken),
+    );
+  }
+
+  Widget _reportPageWidget(
+      List<Map<String, dynamic>> filteredData, bool allTaken) {
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(20, 30, 0, 20),
+        child: Row(
+          children: [
+            const SubTitle(
+              text: 'Select date',
+              textcolor: Colors.black,
+              weight: FontWeight.bold,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Calender(
+                onDateChanged: (value) {
+                  setState(() {
+                    selectedDate = value;
+                  });
+                },
+              ),
+            ),
+          ],
         ),
       ),
-      body: _reportPageWidget(),
-    );
-
-  }
-  Widget _reportPageWidget(){
-    return Column(
-      children: [
+      if (filteredData.isNotEmpty)
         Padding(
-          padding: const EdgeInsets.only(left: 20, top: 30),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
-              children: [
-                const SubTitle(
-                  text: 'select date',
-                  textcolor: Colors.black,
-                  weight: FontWeight.bold,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                allTaken ? Icons.check_circle : Icons.highlight_remove,
+                color: allTaken ? Colors.green : Colors.red,
+              ),
+              const SizedBox(width: 10),
+              Text(
+                allTaken
+                    ? 'All medicines have been taken'
+                    : 'Some medicines are not taken',
+                style: TextStyle(
+                  color: allTaken ? Colors.green : Colors.red,
+                  fontWeight: FontWeight.bold,
                 ),
-                Padding(
-                    padding: const EdgeInsets.only(left: 0),
-                    child:  Calender(onDateChanged: (value) {
-                      
-                    },)
-                ),
-              ]),
+              ),
+            ],
+          ),
         ),
-               CustomCard(
-                      card_action: (){},
-                        card_height: 570,
-                        card_content: Padding(
-                           padding: const EdgeInsets.only( right:   30),
-                        child: Column(
-                          children: [
-                            const Padding(
-                                padding: EdgeInsets.only(left: 30, top: 20),
-                                child: Row(
-                                    children: [
-                                      SmallText(
-                                        text: 'Medicine',
-                                        textcolor: Colors.black,
-                                        weight: FontWeight.bold,
-                                      ),
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 100),
-                                          child: SmallText(
-                                            text: 'Dosage',
-                                            textcolor: Colors.black,
-                                            weight: FontWeight.bold,
-                                          )),
-                                    ]
-                                )),
-                            SizedBox(
-                              height: 450,
-                            child: ListView.builder(
-                                itemCount: medicine_name.length,
-                                itemBuilder: (context , index){
-                                  _currentIndex = index;
-                           return Padding(
-                               padding: const EdgeInsets.only(left: 30,top: 20),
-                             child: Row(
-                              children: [
-                                    SmallText(
-                                      text: medicine_name[_currentIndex],
-                                      textcolor: kButtonColor,
-                                      weight: FontWeight.bold,
-                                    ),
-                               Padding(
-                                 padding: const EdgeInsets.only(left: 100),
-                               child: SmallText(
-                                      text: dosage[_currentIndex],
-                                      textcolor: kButtonColor,
-                                      weight: FontWeight.bold,
-                                    )),
-                               const Spacer(flex: 1,),
+      CustomCard(
+          card_action: () {},
+          card_height: 570,
+          card_content: Padding(
+              padding: const EdgeInsets.only(right: 30),
+              child: Column(
+                children: [
+                  const Padding(
+                      padding: EdgeInsets.only(left: 30, top: 20),
+                      child: Row(children: [
+                        SmallText(
+                          text: 'Medicine',
+                          textcolor: Colors.black,
+                          weight: FontWeight.bold,
+                        ),
+                        Spacer(
+                          flex: 1,
+                        ),
+                        SmallText(
+                          text: 'Dosage',
+                          textcolor: Colors.black,
+                          weight: FontWeight.bold,
+                        ),
+                        Spacer(
+                          flex: 2,
+                        ),
+                      ])),
+                  SizedBox(
+                    height: 450,
+                    child: ListView.builder(
+                        itemCount: filteredData.length,
+                        itemBuilder: (context, index) {
+                          final medicine = filteredData[index];
+                          final medicineName =
+                              medicine['pill_name'] ?? 'medicine';
+                          final medicineDose = medicine['dosage'] ?? '0';
+                          final bool isAllTimesTaken =
+                              (medicine['times'] as List<dynamic>).every(
+                                  (timeEntry) => timeEntry['isTaken'] ?? false);
+
+                          return Padding(
+                              padding: const EdgeInsets.only(left: 30, top: 20),
+                              child: Row(
+                                children: [
+                                  SmallText(
+                                    text: medicineName,
+                                    textcolor: kButtonColor,
+                                    weight: FontWeight.bold,
+                                  ),
+                                  const Spacer(
+                                    flex: 1,
+                                  ),
+                                  SmallText(
+                                    text: medicineDose.toString(),
+                                    textcolor: kButtonColor,
+                                    weight: FontWeight.bold,
+                                  ),
+                                  const Spacer(
+                                    flex: 1,
+                                  ),
                                   Icon(
-                                    dosage_taken[_currentIndex]? Icons.check_circle : Icons.highlight_remove,
-                                    color: dosage_taken[_currentIndex]? Colors.green : Colors.red,
-
-                                )
-                              ],
-                            ));
-                                }),
-
-                             )
-
-                          ],
-                        )))
-
-
-
-      ],
-    );
+                                    isAllTimesTaken
+                                        ? Icons.check_circle
+                                        : Icons.highlight_remove,
+                                    color: isAllTimesTaken
+                                        ? Colors.green
+                                        : Colors.red,
+                                  )
+                                ],
+                              ));
+                        }),
+                  )
+                ],
+              )))
+    ]);
   }
 }

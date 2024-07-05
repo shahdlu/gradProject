@@ -143,14 +143,14 @@ class _MealsScreenState extends State<Meals> {
                 card_action: () {},
                 card_height: 385,
                 card_content: Column(children: [
-                  CustomCheckbox(
-                    checkbox_title: cardtitle[_currentIndex],
-                    checkboxtitle_widget: NormalText(
-                      text: cardtitle[_currentIndex],
-                      weight: FontWeight.bold,
-                      textcolor: Colors.black,
-                    ),
-                  ),
+                  // CustomCheckbox(
+                  //   checkbox_title: cardtitle[_currentIndex],
+                  //   checkboxtitle_widget: NormalText(
+                  //     text: cardtitle[_currentIndex],
+                  //     weight: FontWeight.bold,
+                  //     textcolor: Colors.black,
+                  //   ),
+                  // ),
                   Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Column(children: [

@@ -102,6 +102,8 @@ class WalkingListViewItem extends StatelessWidget {
             builder: (v) => CounterTrainings(
                   link: link,
                   trainingName: mile,
+                  kcal: kcal,
+                  sport: 'walking',
                 )));
         if (kDebugMode) {
           print(link);
