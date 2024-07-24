@@ -20,7 +20,6 @@ class _SelectedItemsState extends State<SelectedItems> {
     final userId = FirebaseAuth.instance.currentUser?.uid;
 
     if (userId == null) {
-
       // Return a message or alternative UI if user is not logged in
       return Scaffold(
         appBar: AppBar(
@@ -67,7 +66,8 @@ class _SelectedItemsState extends State<SelectedItems> {
                 if (!snapshot.hasData || !snapshot.data!.exists) {
                   return const Center(child: Text('No selected items'));
                 }
-                var selectedItems = List<Map<String, dynamic>>.from(snapshot.data!['items']);
+                var selectedItems =
+                    List<Map<String, dynamic>>.from(snapshot.data!['items']);
                 _totalKcal = selectedItems.fold<int>(0, (total, item) {
                   final kcal = item['kcal'];
                   if (kcal is num) {
@@ -79,18 +79,22 @@ class _SelectedItemsState extends State<SelectedItems> {
                   return total;
                 });
 
-
-
                 var userData = snapshot.data?.data() as Map<String, dynamic>;
                 bool isMale = userData['gender'] == 'male';
                 print(isMale);
-                num height = userData['height'];
-                num weight = userData['weight'];
-                num age = userData['age'];
-                var bmrMale = (10 * weight.toDouble()) + (6.25 * height.toDouble()) - (5 * age) + 5;
-                var bmrFemale = (10 * weight.toDouble()) + (6.25 * height.toDouble()) - (5 * age) - 161;
+                num height = userData['height'] ?? 100;
+                num weight = userData['weight'] ?? 50;
+                num age = userData['age'] ?? 20;
+                var bmrMale = (10 * weight.toDouble()) +
+                    (6.25 * height.toDouble()) -
+                    (5 * age) +
+                    5;
+                var bmrFemale = (10 * weight.toDouble()) +
+                    (6.25 * height.toDouble()) -
+                    (5 * age) -
+                    161;
                 num bmr = isMale ? bmrMale : bmrFemale;
-                var remaining = bmr - _totalKcal ;
+                var remaining = bmr - _totalKcal;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -129,7 +133,8 @@ class _SelectedItemsState extends State<SelectedItems> {
                                     card_action: () {},
                                     card_height: 50,
                                     card_content: Padding(
-                                      padding: const EdgeInsets.fromLTRB(25, 8, 25, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          25, 8, 25, 0),
                                       child: SmallText(
                                         textcolor: Colors.black,
                                         text: '$_totalKcal kcal',
@@ -140,8 +145,9 @@ class _SelectedItemsState extends State<SelectedItems> {
                                   CustomCard(
                                     card_action: () {},
                                     card_height: 50,
-                                    card_content:  Padding(
-                                      padding: const EdgeInsets.fromLTRB(25, 8, 25, 0),
+                                    card_content: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          25, 8, 25, 0),
                                       child: SmallText(
                                         textcolor: Colors.black,
                                         text: "$remaining" ?? '',
@@ -191,9 +197,11 @@ class _SelectedItemsState extends State<SelectedItems> {
     );
   }
 
-  Future<void> _removeItemFromSelectedItems(String userId, Map<String, dynamic> item) async {
+  Future<void> _removeItemFromSelectedItems(
+      String userId, Map<String, dynamic> item) async {
     try {
-      final docRef = FirebaseFirestore.instance.collection('selected_items').doc(userId);
+      final docRef =
+          FirebaseFirestore.instance.collection('selected_items').doc(userId);
 
       await docRef.update({
         'items': FieldValue.arrayRemove([item]),

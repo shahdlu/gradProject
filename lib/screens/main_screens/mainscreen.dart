@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:gradproj/screens/main_screens/settings.dart';
 import 'package:gradproj/screens/reports/reports.dart';
 import 'package:gradproj/widgets/navigation_bar.dart';
-import 'package:intl/intl.dart';
 
 import '../../core/widgets/style.dart';
 import 'homepage.dart';
@@ -70,12 +69,12 @@ class _MainPageState extends State<MainPage> {
             },
             showreportwidget: () {
               setState(() {
-                _homeWidget = const Reports();
+                _homeWidget =  Reports();
               });
             },
             showsettingswidget: () {
               setState(() {
-                _homeWidget = const Settings();
+                _homeWidget =  Settings();
               });
             },
           )),

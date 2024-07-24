@@ -15,7 +15,7 @@ class Reports extends StatefulWidget {
 
 class ReportsState extends State<Reports> {
   int _currentIndex = 0;
-  List<String> items = ['Sports', 'Medicine', 'Medical Tests'];
+  List<String> items = ['Sports', 'Food', 'Medicine', 'Medical Tests'];
 
   @override
   Widget build(BuildContext context) {
@@ -44,15 +44,13 @@ class ReportsState extends State<Reports> {
                 if (index == 0) {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (v) => const SportsReport()));
-                }
-                //  else if (index == 1) {
-                //   Navigator.of(context)
-                //       .push(MaterialPageRoute(builder: (v) => FoodReport()));
-                // }
-                else if (index == 1) {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (v) => const MedicineReport()));
+                } else if (index == 1) {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (v) => const FoodReport()));
                 } else if (index == 2) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (v) => const MedicineReport()));
+                } else if (index == 3) {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (v) => MedicalTestsReport()));
                 }

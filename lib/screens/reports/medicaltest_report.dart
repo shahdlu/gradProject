@@ -2,36 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/core/widgets/style.dart';
-import 'package:gradproj/widgets/button.dart';
-
 import '../../theme/constants.dart';
-import '../../widgets/cards.dart';
 import '../../widgets/text.dart';
 
 class MedicalTestsReport extends StatefulWidget {
   @override
-  _MedicalTestsReportState createState() => _MedicalTestsReportState();
+  MedicalTestsReportState createState() => MedicalTestsReportState();
 }
 
-class _MedicalTestsReportState extends State<MedicalTestsReport> {
-  int _currentIndex = 0;
-  List<String> test_name = ['A1C', 'A1C', 'Postprandial blood', 'LFT', 'LFT'];
-  List<String> test_kind = ['A1C', 'eAg', 'Blood sugar', 'ALT', 'AST'];
-  List<String> eAg_perc = ['7.0', '5.0'];
-  List<String> a1c_perc = ['6', '20'];
-  List<String> sugar_perc = ['200', '140', '150'];
-  List<String> alt_perc = ['24'];
-  List<String> ast_perc = ['42'];
-  List<String> a1c_time = ['5 pm', '8 am'];
-  List<String> postprandal_time = ['10 pm', '5 pm', '12 am'];
-  List<String> lft_time = ['6 pm'];
-  List<String> a1c_date = ['5-5-2024', '10-5-2024'];
-  List<String> postprandal_date = ['8-30-2020', '6-12-2024', '9-6-2024'];
-  List<String> lft_date = ['7-9-2024'];
-  late List<String> test_perc;
-  late List<String> test_time;
-  late List<String> test_date;
-  late String second_text;
+class MedicalTestsReportState extends State<MedicalTestsReport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,7 +130,7 @@ class _MedicalTestsReportState extends State<MedicalTestsReport> {
           return const SizedBox();
         }
 
-        List<Map<String, dynamic>> a1cTests =
+        List<Map<String, dynamic>> postprandialTests =
             List<Map<String, dynamic>>.from(snapshot.data!['tests']);
 
         return Column(
@@ -171,7 +150,7 @@ class _MedicalTestsReportState extends State<MedicalTestsReport> {
               ),
               child: Expanded(
                 child: ListView.builder(
-                  itemCount: a1cTests.length,
+                  itemCount: postprandialTests.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -189,12 +168,12 @@ class _MedicalTestsReportState extends State<MedicalTestsReport> {
                               children: [
                                 SmallText(
                                   text:
-                                      'blood sugar: ${a1cTests[index]['bloodSugar']} mg/dL',
+                                      'blood sugar: ${postprandialTests[index]['bloodSugar']} mg/dL',
                                   textcolor: kButtonColor,
                                   weight: FontWeight.bold,
                                 ),
                                 SmallText(
-                                  text: 'date: ${a1cTests[index]['date']}',
+                                  text: 'date: ${postprandialTests[index]['date']}',
                                   textcolor: kButtonColor,
                                   weight: FontWeight.bold,
                                 ),
@@ -202,7 +181,7 @@ class _MedicalTestsReportState extends State<MedicalTestsReport> {
                             ),
                             const Spacer(),
                             SmallText(
-                              text: 'time: ${a1cTests[index]['time']}',
+                              text: 'time: ${postprandialTests[index]['time']}',
                               textcolor: Colors.red,
                               weight: FontWeight.bold,
                             ),
@@ -235,7 +214,7 @@ class _MedicalTestsReportState extends State<MedicalTestsReport> {
           return const SizedBox();
         }
 
-        List<Map<String, dynamic>> a1cTests =
+        List<Map<String, dynamic>> lftTests =
             List<Map<String, dynamic>>.from(snapshot.data!['tests']);
 
         return Column(
@@ -255,7 +234,7 @@ class _MedicalTestsReportState extends State<MedicalTestsReport> {
               ),
               child: Expanded(
                 child: ListView.builder(
-                  itemCount: a1cTests.length,
+                  itemCount: lftTests.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -273,18 +252,18 @@ class _MedicalTestsReportState extends State<MedicalTestsReport> {
                               children: [
                                 SmallText(
                                   text:
-                                      'ALT: ${a1cTests[index]['ALT_percentage']} UI/l ',
+                                      'ALT: ${lftTests[index]['ALT_percentage']} UI/l ',
                                   textcolor: kButtonColor,
                                   weight: FontWeight.bold,
                                 ),
                                 SmallText(
                                   text:
-                                      'AST: ${a1cTests[index]['AST_percentage']} UI/l ',
+                                      'AST: ${lftTests[index]['AST_percentage']} UI/l ',
                                   textcolor: kButtonColor,
                                   weight: FontWeight.bold,
                                 ),
                                 SmallText(
-                                  text: 'date: ${a1cTests[index]['date']}',
+                                  text: 'date: ${lftTests[index]['date']}',
                                   textcolor: kButtonColor,
                                   weight: FontWeight.bold,
                                 ),
@@ -292,7 +271,7 @@ class _MedicalTestsReportState extends State<MedicalTestsReport> {
                             ),
                             const Spacer(),
                             SmallText(
-                              text: 'time: ${a1cTests[index]['time']}',
+                              text: 'time: ${lftTests[index]['time']}',
                               textcolor: Colors.red,
                               weight: FontWeight.bold,
                             ),

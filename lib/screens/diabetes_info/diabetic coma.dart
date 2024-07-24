@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -86,26 +88,26 @@ class _DiabeticComaState extends State<DiabeticComa> {
                 ),
               ],
             ),
-            Padding(
-                padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                child: Row(
-                  children: [
-                    const NormalText(
-                      text: 'Number 2',
-                      textcolor: kButtonColor,
-                      weight: FontWeight.normal,
-                    ),
-                    CustomTextField(
-                      hintText: '',
-                      controller: secondNumber,
-                      isPassword: false,
-                      padding_left: 15,
-                      padding_top: 0,
-                      padding_right: 0,
-                      padding_bottom: 0,
-                    ),
-                  ],
-                )),
+            // Padding(
+            //     padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+            //     child: Row(
+            //       children: [
+            //         const NormalText(
+            //           text: 'Number 2',
+            //           textcolor: kButtonColor,
+            //           weight: FontWeight.normal,
+            //         ),
+            //         CustomTextField(
+            //           hintText: '',
+            //           controller: secondNumber,
+            //           isPassword: false,
+            //           padding_left: 15,
+            //           padding_top: 0,
+            //           padding_right: 0,
+            //           padding_bottom: 0,
+            //         ),
+            //       ],
+            //     )),
             const SizedBox(
               height: 20,
             ),
@@ -114,11 +116,9 @@ class _DiabeticComaState extends State<DiabeticComa> {
                 final SharedPreferences prefs =
                     await SharedPreferences.getInstance();
 
-                prefs.setString('firstNumber', firstNumber.text);
-                prefs.setString('secondNumber', secondNumber.text);
-                log('=============' + prefs!.getString('firstNumber')!);
-                log('=============' + prefs!.getString('secondNumber')!);
-
+                prefs.setString('firstNumber', firstNumber.text);      
+                log('=============' + prefs.getString('firstNumber')!);
+                
                 Navigator.of(context).pop();
               },
               title: 'Save',

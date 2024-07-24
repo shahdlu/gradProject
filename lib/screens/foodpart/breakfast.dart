@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gradproj/screens/foodpart/search_field.dart';
+import 'package:intl/intl.dart';
 
 import '../../theme/constants.dart';
 import '../../widgets/button.dart';
@@ -102,6 +103,8 @@ class BreakfastScreenState extends State<BreakfastScreen> {
                       onChecked: (isChecked) {
                         if (isChecked) {
                           selectedItems.add({
+                            'date':
+                                DateFormat('M/d/yyyy').format(DateTime.now()),
                             'name': name,
                             'kcal': kcal,
                           });
